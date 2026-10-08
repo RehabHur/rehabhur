@@ -4,9 +4,7 @@ function Prueba() {
 
     return (
     <>
-        <h1>
-            <>Hola Ema</>
-        </h1>
+        <h2 className="fw-bold text-success">Hola Ema</h2>
     </>
     )
 }

@@ -1,22 +1,30 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
+import Alert from 'react-bootstrap/Alert'
+import Button from 'react-bootstrap/Button'
+
 import './App.css'
 import Prueba from './components/Prueba'
 import EjerciciosPrueba from './components/EjerciciosPrueba'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <>
-      <div>
-        <h1>Ejercicios</h1>
-        <Prueba></Prueba>
+      <main className="container py-5">
+        <Alert variant="success">
+          React Bootstrap funciona correctamente.
+        </Alert>
+
+        <Button variant="success" className="mb-4">
+          Botón de prueba
+        </Button>
+
+        <div>
+          <h1 className="fw-bold text-success">Ejercicios</h1>
+          <Prueba />
         </div>
-      <footer>
-        <EjerciciosPrueba></EjerciciosPrueba>
+      </main>
+
+      <footer className="container pb-5">
+        <EjerciciosPrueba />
       </footer>
     </>
   )
