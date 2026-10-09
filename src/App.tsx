@@ -1,33 +1,29 @@
-import Alert from 'react-bootstrap/Alert'
-import Button from 'react-bootstrap/Button'
+//import Alert from 'react-bootstrap/Alert'
+//import Button from 'react-bootstrap/Button'
 
 import './App.css'
-import Prueba from './components/Prueba'
-import EjerciciosPrueba from './components/EjerciciosPrueba'
+import CrearEjercicio from './components/CrearEjercicio'
+
 
 function App() {
-  return (
-    <>
-      <main className="container py-5">
-        <Alert variant="success">
-          React Bootstrap funciona correctamente.
-        </Alert>
-
-        <Button variant="success" className="mb-4">
-          Botón de prueba
-        </Button>
-
-        <div>
-          <h1 className="fw-bold text-success">Ejercicios</h1>
-          <Prueba />
-        </div>
-      </main>
-
-      <footer className="container pb-5">
-        <EjerciciosPrueba />
-      </footer>
-    </>
-  )
+  return <CrearEjercicio />
 }
 
 export default App
+
+
+// Ejemplo por si queremos fijar algo en el APP()
+// function App() {
+//   return (
+//     <>
+//       <main className="container py-5">
+//         <div>
+//           <h1 className="fw-bold text-success">Lista de Ejercicios</h1>
+//           <CrearEjercicio />
+//         </div>
+//       </main>
+//     </>
+//   )
+// }
+
+//export default App
