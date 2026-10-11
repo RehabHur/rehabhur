@@ -1,0 +1,99 @@
+.exercise-page {
+    width: 100%;
+    max-width: 1240px;
+    margin: 0 auto;
+}
+
+.exercise-breadcrumb {
+    margin-bottom: 8px;
+    color: #697985;
+    font-size: 13px;
+}
+
+.exercise-breadcrumb-current {
+    color: #16845e;
+}
+
+.exercise-title {
+    margin-bottom: 26px;
+    color: #142238;
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.exercise-card {
+    border: 1px solid #e6eeee;
+    border-radius: 16px;
+    background-color: #ffffff;
+    box-shadow: 0 3px 12px
+    rgba(27, 76, 64, 0.04);
+}
+
+.exercise-card .form-label {
+    color: #26384b;
+    font-size: 13px;
+}
+
+.exercise-card .form-control,
+.exercise-card .form-select {
+    min-height: 46px;
+    border-color: #d8e2e4;
+    border-radius: 8px;
+    color: #243547;
+    font-size: 14px;
+}
+
+.exercise-card .form-control::placeholder {
+    color: #a3b3c2;
+}
+
+.exercise-card textarea.form-control {
+    min-height: 145px;
+    resize: vertical;
+}
+
+.exercise-card .form-control:focus,
+.exercise-card .form-select:focus {
+    border-color: #159b86;
+    box-shadow: 0 0 0 0.2rem
+    rgba(21, 155, 134, 0.13);
+}
+
+.exercise-actions {
+    margin-top: 28px;
+    padding-top: 28px;
+    border-top: 1px solid #e5ecec;
+}
+
+.exercise-save-button {
+    min-width: 105px;
+    background-color: #12998f;
+    border-color: #12998f;
+}
+
+.exercise-save-button:hover {
+    background-color: #0e8279;
+    border-color: #0e8279;
+}
+.exercise-breadcrumb-separator {
+    margin: 0 6px;
+    color: #9aa8b3;
+}
+
+.required-mark {
+    color: #e05252;
+}
+
+.exercise-card .invalid-feedback {
+    font-size: 12px;
+}
+
+.exercise-card .form-control.is-invalid,
+.exercise-card .form-select.is-invalid {
+    border-color: #dc3545;
+}
+
+.exercise-card .form-control.is-valid,
+.exercise-card .form-select.is-valid {
+    border-color: #198754;
+}

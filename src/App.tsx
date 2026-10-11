@@ -1,12 +1,28 @@
 //import Alert from 'react-bootstrap/Alert'
 //import Button from 'react-bootstrap/Button'
 
+// import './App.css'
+// import CrearEjercicio from './components/CrearEjercicio'
+
+
+// function App() {
+//   return <CrearEjercicio />
+// }
+
+// export default App
+
+
+
 import './App.css'
 import CrearEjercicio from './components/CrearEjercicio'
-
+import AppLayout from './components/layout/AppLayout'
 
 function App() {
-  return <CrearEjercicio />
+  return (
+    <AppLayout>
+      <CrearEjercicio />
+    </AppLayout>
+  )
 }
 
 export default App
