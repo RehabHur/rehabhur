@@ -1,10 +1,13 @@
 .app-layout {
+    width: 100%;
     min-height: 100vh;
     background-color: #e9faf5;
 }
 
 .app-content {
+    width: calc(100% - 240px);
     min-height: 100vh;
     margin-left: 240px;
     padding: 42px 48px;
+    background-color: #e9faf5;
 }
