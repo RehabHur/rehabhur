@@ -1,0 +1,273 @@
+/* ---------- Header ---------- */
+.biblioteca-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 22px;
+}
+
+.biblioteca-title {
+    margin-bottom: 0;
+}
+
+.biblioteca-nuevo-btn {
+    padding: 11px 20px;
+    border-radius: 8px;
+    background-color: #12998f;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+}
+
+.biblioteca-nuevo-btn:hover {
+    background-color: #0e8279;
+    color: #ffffff;
+}
+
+/* ---------- Buscador ---------- */
+.biblioteca-buscador {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 18px;
+    margin-bottom: 26px;
+    border: 1px solid #dfe7e5;
+    border-radius: 10px;
+    background-color: #ffffff;
+}
+
+.biblioteca-buscador-icon {
+    color: #9aa8b3;
+    font-size: 16px;
+}
+
+.biblioteca-buscador input {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: #243547;
+    font-size: 14px;
+}
+
+.biblioteca-buscador input::placeholder {
+    color: #a3b3c2;
+}
+
+/* ---------- Grid de dos columnas ---------- */
+.biblioteca-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+    gap: 24px;
+    align-items: start;
+}
+
+/* ---------- Columna izquierda: lista ---------- */
+.biblioteca-lista-card {
+    padding: 20px 22px 24px;
+    border: 1px solid #e6eeee;
+    border-radius: 16px;
+    background-color: #ffffff;
+    box-shadow: 0 3px 12px rgba(27, 76, 64, 0.04);
+}
+
+.biblioteca-contador {
+    margin: 0 0 14px;
+    color: #697985;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.biblioteca-lista {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.biblioteca-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    background-color: #f7faf9;
+    cursor: pointer;
+    transition: background-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.biblioteca-item:hover {
+    background-color: #effaf6;
+}
+
+.biblioteca-item-seleccionado {
+    background-color: #ecfdf5;
+    box-shadow: inset 0 0 0 1px #a7e8c8;
+}
+
+/* ---------- Miniatura del video ---------- */
+.biblioteca-thumb {
+    position: relative;
+    width: 72px;
+    height: 48px;
+    border-radius: 8px;
+    overflow: hidden;
+    flex-shrink: 0;
+    background-color: #17824f;
+}
+
+.biblioteca-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.biblioteca-thumb-play {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-size: 13px;
+    background-color: rgba(0, 0, 0, 0.35);
+    transition: background-color 0.15s ease;
+}
+
+.biblioteca-item:hover .biblioteca-thumb-play {
+    background-color: rgba(0, 0, 0, 0.55);
+}
+
+/* ---------- Info ---------- */
+.biblioteca-item-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.biblioteca-item-nombre {
+    margin: 0 0 3px;
+    color: #142238;
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.biblioteca-item-meta {
+    margin: 0;
+    color: #697985;
+    font-size: 12px;
+}
+
+/* ---------- Acciones ---------- */
+.biblioteca-item-acciones {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.biblioteca-btn {
+    padding: 5px 12px;
+    border-radius: 6px;
+    border: 1px solid transparent;
+    background-color: transparent;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+.biblioteca-btn-editar {
+    color: #16845e;
+    border-color: #a7e8c8;
+}
+
+.biblioteca-btn-editar:hover {
+    background-color: #ecfdf5;
+}
+
+.biblioteca-btn-eliminar {
+    color: #e05252;
+    border-color: #f5c7c7;
+}
+
+.biblioteca-btn-eliminar:hover {
+    background-color: #fdf2f2;
+}
+
+/* ---------- Estado vacío ---------- */
+.biblioteca-vacio {
+    padding: 20px 14px;
+    color: #9aa8b3;
+    font-size: 13px;
+    text-align: center;
+}
+
+/* ---------- Columna derecha: preview ---------- */
+.biblioteca-preview-card {
+    padding: 20px 22px 24px;
+    border: 1px solid #e6eeee;
+    border-radius: 16px;
+    background-color: #ffffff;
+    box-shadow: 0 3px 12px rgba(27, 76, 64, 0.04);
+}
+
+.biblioteca-preview-titulo {
+    margin: 0 0 16px;
+    color: #142238;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.biblioteca-video-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    margin-bottom: 16px;
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: #142238;
+}
+
+.biblioteca-video-wrapper iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+}
+
+.biblioteca-preview-nombre {
+    margin: 0 0 14px;
+    color: #142238;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.biblioteca-abrir-youtube {
+    display: inline-block;
+    padding: 9px 16px;
+    border-radius: 6px;
+    background-color: #12998f;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+}
+
+.biblioteca-abrir-youtube:hover {
+    background-color: #0e8279;
+    color: #ffffff;
+}
+
+.biblioteca-preview-vacio {
+    margin: 0;
+    color: #9aa8b3;
+    font-size: 14px;
+}
