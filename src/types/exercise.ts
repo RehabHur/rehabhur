@@ -1,6 +1,5 @@
 
-
-export interface Ejercicio {
+export type Exercise = {
     id: number
     name: string
     bodyRegion: string

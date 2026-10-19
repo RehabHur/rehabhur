@@ -14,6 +14,11 @@
     color: #16845e;
 }
 
+.exercise-breadcrumb-separator {
+    margin: 0 6px;
+    color: #9aa8b3;
+}
+
 .exercise-title {
     margin-bottom: 26px;
     color: #142238;
@@ -25,8 +30,7 @@
     border: 1px solid #e6eeee;
     border-radius: 16px;
     background-color: #ffffff;
-    box-shadow: 0 3px 12px
-    rgba(27, 76, 64, 0.04);
+    box-shadow: 0 3px 12px rgba(27, 76, 64, 0.04);
 }
 
 .exercise-card .form-label {
@@ -55,8 +59,7 @@
 .exercise-card .form-control:focus,
 .exercise-card .form-select:focus {
     border-color: #159b86;
-    box-shadow: 0 0 0 0.2rem
-    rgba(21, 155, 134, 0.13);
+    box-shadow: 0 0 0 0.2rem rgba(21, 155, 134, 0.13);
 }
 
 .exercise-actions {
@@ -74,10 +77,6 @@
 .exercise-save-button:hover {
     background-color: #0e8279;
     border-color: #0e8279;
-}
-.exercise-breadcrumb-separator {
-    margin: 0 6px;
-    color: #9aa8b3;
 }
 
 .required-mark {

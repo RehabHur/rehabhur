@@ -1,16 +1,16 @@
 /* ---------- Header ---------- */
-.biblioteca-header {
+.library-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 22px;
 }
 
-.biblioteca-title {
+.library-title {
     margin-bottom: 0;
 }
 
-.biblioteca-nuevo-btn {
+.library-new-btn {
     padding: 11px 20px;
     border-radius: 8px;
     background-color: #12998f;
@@ -21,13 +21,13 @@
     transition: background-color 0.2s ease;
 }
 
-.biblioteca-nuevo-btn:hover {
+.library-new-btn:hover {
     background-color: #0e8279;
     color: #ffffff;
 }
 
 /* ---------- Buscador ---------- */
-.biblioteca-buscador {
+.library-search {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -38,12 +38,12 @@
     background-color: #ffffff;
 }
 
-.biblioteca-buscador-icon {
+.library-search-icon {
     color: #9aa8b3;
     font-size: 16px;
 }
 
-.biblioteca-buscador input {
+.library-search input {
     flex: 1;
     border: none;
     outline: none;
@@ -52,12 +52,12 @@
     font-size: 14px;
 }
 
-.biblioteca-buscador input::placeholder {
+.library-search input::placeholder {
     color: #a3b3c2;
 }
 
 /* ---------- Grid de dos columnas ---------- */
-.biblioteca-grid {
+.library-grid {
     display: grid;
     grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
     gap: 24px;
@@ -65,7 +65,7 @@
 }
 
 /* ---------- Columna izquierda: lista ---------- */
-.biblioteca-lista-card {
+.library-list-card {
     padding: 20px 22px 24px;
     border: 1px solid #e6eeee;
     border-radius: 16px;
@@ -73,14 +73,14 @@
     box-shadow: 0 3px 12px rgba(27, 76, 64, 0.04);
 }
 
-.biblioteca-contador {
+.library-counter {
     margin: 0 0 14px;
     color: #697985;
     font-size: 13px;
     font-weight: 600;
 }
 
-.biblioteca-lista {
+.library-list {
     list-style: none;
     margin: 0;
     padding: 0;
@@ -89,7 +89,7 @@
     gap: 10px;
 }
 
-.biblioteca-item {
+.library-item {
     display: flex;
     align-items: center;
     gap: 14px;
@@ -100,17 +100,17 @@
     transition: background-color 0.15s ease, box-shadow 0.15s ease;
 }
 
-.biblioteca-item:hover {
+.library-item:hover {
     background-color: #effaf6;
 }
 
-.biblioteca-item-seleccionado {
+.library-item-selected {
     background-color: #ecfdf5;
     box-shadow: inset 0 0 0 1px #a7e8c8;
 }
 
 /* ---------- Miniatura del video ---------- */
-.biblioteca-thumb {
+.library-thumb {
     position: relative;
     width: 72px;
     height: 48px;
@@ -120,14 +120,14 @@
     background-color: #17824f;
 }
 
-.biblioteca-thumb img {
+.library-thumb img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
 }
 
-.biblioteca-thumb-play {
+.library-thumb-play {
     position: absolute;
     inset: 0;
     display: flex;
@@ -139,17 +139,17 @@
     transition: background-color 0.15s ease;
 }
 
-.biblioteca-item:hover .biblioteca-thumb-play {
+.library-item:hover .library-thumb-play {
     background-color: rgba(0, 0, 0, 0.55);
 }
 
 /* ---------- Info ---------- */
-.biblioteca-item-info {
+.library-item-info {
     flex: 1;
     min-width: 0;
 }
 
-.biblioteca-item-nombre {
+.library-item-name {
     margin: 0 0 3px;
     color: #142238;
     font-size: 14px;
@@ -159,20 +159,20 @@
     text-overflow: ellipsis;
 }
 
-.biblioteca-item-meta {
+.library-item-meta {
     margin: 0;
     color: #697985;
     font-size: 12px;
 }
 
 /* ---------- Acciones ---------- */
-.biblioteca-item-acciones {
+.library-item-actions {
     display: flex;
     gap: 8px;
     flex-shrink: 0;
 }
 
-.biblioteca-btn {
+.library-btn {
     padding: 5px 12px;
     border-radius: 6px;
     border: 1px solid transparent;
@@ -183,34 +183,45 @@
     transition: background-color 0.15s ease;
 }
 
-.biblioteca-btn-editar {
+.library-btn-edit {
     color: #16845e;
     border-color: #a7e8c8;
 }
 
-.biblioteca-btn-editar:hover {
+.library-btn-edit:hover {
     background-color: #ecfdf5;
 }
 
-.biblioteca-btn-eliminar {
+.library-btn-delete {
     color: #e05252;
     border-color: #f5c7c7;
 }
 
-.biblioteca-btn-eliminar:hover {
+.library-btn-delete:hover {
     background-color: #fdf2f2;
 }
 
-/* ---------- Estado vacío ---------- */
-.biblioteca-vacio {
+/* ---------- Estado vacío / carga / error ---------- */
+.library-empty {
     padding: 20px 14px;
     color: #9aa8b3;
     font-size: 13px;
     text-align: center;
 }
 
+.library-state {
+    padding: 40px 20px;
+    color: #697985;
+    font-size: 14px;
+    text-align: center;
+}
+
+.library-state-error {
+    color: #e05252;
+}
+
 /* ---------- Columna derecha: preview ---------- */
-.biblioteca-preview-card {
+.library-preview-card {
     padding: 20px 22px 24px;
     border: 1px solid #e6eeee;
     border-radius: 16px;
@@ -218,14 +229,14 @@
     box-shadow: 0 3px 12px rgba(27, 76, 64, 0.04);
 }
 
-.biblioteca-preview-titulo {
+.library-preview-title {
     margin: 0 0 16px;
     color: #142238;
     font-size: 15px;
     font-weight: 700;
 }
 
-.biblioteca-video-wrapper {
+.library-video-wrapper {
     position: relative;
     width: 100%;
     aspect-ratio: 16 / 9;
@@ -235,21 +246,21 @@
     background-color: #142238;
 }
 
-.biblioteca-video-wrapper iframe {
+.library-video-wrapper iframe {
     width: 100%;
     height: 100%;
     border: 0;
     display: block;
 }
 
-.biblioteca-preview-nombre {
+.library-preview-name {
     margin: 0 0 14px;
     color: #142238;
     font-size: 14px;
     font-weight: 600;
 }
 
-.biblioteca-abrir-youtube {
+.library-open-youtube {
     display: inline-block;
     padding: 9px 16px;
     border-radius: 6px;
@@ -261,12 +272,12 @@
     transition: background-color 0.2s ease;
 }
 
-.biblioteca-abrir-youtube:hover {
+.library-open-youtube:hover {
     background-color: #0e8279;
     color: #ffffff;
 }
 
-.biblioteca-preview-vacio {
+.library-preview-empty {
     margin: 0;
     color: #9aa8b3;
     font-size: 14px;
