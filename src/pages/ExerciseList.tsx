@@ -10,6 +10,8 @@ function ExerciseList() {
     const { exercises, loading, error, removeExercise } = useExercises()
     const navigate = useNavigate()
 
+    //llamado de ky
+
     const [selected, setSelected] = useState<Exercise | null>(null)
     const [search, setSearch] = useState('')
 
