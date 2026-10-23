@@ -1,0 +1,67 @@
+.home-page {
+    width: 100%;
+    max-width: 1440px;
+    margin: 0 auto;
+}
+
+.home-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 26px;
+}
+
+.home-title {
+    margin-bottom: 0;
+}
+
+.home-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 60px 40px;
+    background-color: #ffffff;
+    border: 1px solid #e6eeee;
+    border-radius: 16px;
+    box-shadow: 0 3px 12px rgba(27, 76, 64, 0.04);
+    min-height: 60vh;
+}
+
+.home-welcome {
+    max-width: 600px;
+    margin-bottom: 40px;
+}
+
+.home-greeting {
+    margin-bottom: 16px;
+    color: #12998f;
+    font-size: 32px;
+    font-weight: 700;
+    font-style: italic;
+    line-height: 1.2;
+}
+
+.home-text {
+    color: #243547;
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 8px;
+}
+
+.home-text-sub {
+    color: #697985;
+    font-size: 14px;
+}
+
+.home-logo-container {
+    width: 200px;
+    opacity: 0.8;
+}
+
+.home-logo-img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}

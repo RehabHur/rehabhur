@@ -1,7 +1,8 @@
-import { Routes, Route, Navigate } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 import './App.css'
-import CreateExercise from './pages/CreateExercise'
-import ExerciseList from './pages/ExerciseList'
+import Home from './pages/home/Home' 
+import CreateExercise from './pages/exercise/CreateExercise' 
+import ExerciseList from './pages/exercise/ExerciseList' 
 import NotFound from './components/NotFound'
 import AppLayout from './components/layout/AppLayout'
 
@@ -9,8 +10,7 @@ function App() {
     return (
         <AppLayout>
             <Routes>
-                {/* TODO: cuando exista el panel, reemplazar por <Home /> */}
-                <Route path="/" element={<Navigate to="/exercises" replace />} />
+                <Route path="/" element={<Home />} />
 
                 <Route path="/exercises" element={<ExerciseList />} />
                 <Route path="/exercises/new" element={<CreateExercise />} />
@@ -23,4 +23,3 @@ function App() {
 }
 
 export default App;
-

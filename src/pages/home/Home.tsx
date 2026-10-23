@@ -1,0 +1,40 @@
+import './Home.css'
+
+function Home() {
+    return (
+        <section className="home-page">
+            <header className="home-header">
+                <h1 className="exercise-title home-title">
+                    Inicio
+                </h1>
+            </header>
+
+            <div className="home-card">
+                <div className="home-welcome">
+                    <h2 className="home-greeting">
+                        ¡Bienvenido a tu plataforma de <br />
+                        Telerehabilitación!
+                    </h2>
+                    <p className="home-text">
+                        Desde aquí podrás gestionar los ejercicios, armar rutinas y
+                        acompañar la evolución de tus pacientes.
+                    </p>
+                    <p className="home-text-sub">
+                        Usá el menú de la izquierda para navegar por los distintos módulos.
+                    </p>
+                </div>
+
+                <div className="home-logo-container">
+                    {/* Si no tenés la imagen del logo, borrá la etiqueta <img> y dejá un texto */}
+                    <img 
+                        src="/assets/logo-unahur.png" 
+                        alt="Logo UNAHUR" 
+                        className="home-logo-img"
+                    />
+                </div>
+            </div>
+        </section>
+    )
+}
+
+export default Home;
