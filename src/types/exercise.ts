@@ -2,9 +2,9 @@
 export type Exercise = {
     id: number
     name: string
-    bodyRegion: string
-    motionType: string
-    material: string
+    bodyRegion: number
+    motionType: number
+    material: number
     linkVideo: string
     instructions: string
 }

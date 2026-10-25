@@ -1,4 +1,5 @@
 import './Home.css'
+import logoUnahur from '../../assets/logo-unahur.png'
 
 function Home() {
     return (
@@ -25,9 +26,8 @@ function Home() {
                 </div>
 
                 <div className="home-logo-container">
-                    {/* Si no tenés la imagen del logo, borrá la etiqueta <img> y dejá un texto */}
                     <img 
-                        src="/assets/logo-unahur.png" 
+                        src={logoUnahur} 
                         alt="Logo UNAHUR" 
                         className="home-logo-img"
                     />

@@ -282,3 +282,42 @@
     color: #9aa8b3;
     font-size: 14px;
 }
+
+/* ---------- Paginación ---------- */
+.library-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #e6eeee;
+}
+
+.library-page-btn {
+    padding: 8px 16px;
+    border: 1px solid #dfe7e5;
+    border-radius: 6px;
+    background-color: #ffffff;
+    color: #16845e;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.library-page-btn:hover:not(:disabled) {
+    background-color: #ecfdf5;
+    border-color: #a7e8c8;
+}
+
+.library-page-btn:disabled {
+    color: #a3b3c2;
+    cursor: not-allowed;
+    border-color: #e6eeee;
+}
+
+.library-page-info {
+    color: #697985;
+    font-size: 13px;
+    font-weight: 500;
+}

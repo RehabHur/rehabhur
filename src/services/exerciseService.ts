@@ -1,33 +1,33 @@
-import ky from 'ky';
-//import { API_URL } from '../api'
+import ky from 'ky'
 import { exercisesMock } from '../mocks/exercisesMock'
 import type { Exercise } from '../types/exercise'
 
-//const EXERCISES_URL = `${API_URL}/exercises`
+const USE_MOCKS = true 
 
-const json: Exercise[] = await ky('http://localhost:3000/api/v1/exercises').json();
-
-console.log(json);
+const api = ky.create({ baseUrl: 'http://localhost:3000/api/v1' })
 
 export async function getExercises(): Promise<Exercise[]> {
-    return json;
+    if (USE_MOCKS) return exercisesMock
+    return await api.get('exercises').json()
 }
 
 export async function getExerciseById(id: number): Promise<Exercise | undefined> {
-    return exercisesMock.find((e) => e.id === id);
+    if (USE_MOCKS) return exercisesMock.find((e) => e.id === id)
+    return await api.get(`exercises/${id.toString()}`).json()
 }
 
 export async function createExercise(exercise: Exercise): Promise<Exercise> {
-    return exercise;
+    if (USE_MOCKS) return exercise
+    return await api.post('exercises', { json: exercise }).json()
 }
 
 export async function updateExercise(exercise: Exercise): Promise<Exercise> {
-    return exercise;
+    if (USE_MOCKS) return exercise
+    return await api.put(`exercises/${exercise.id.toString()}`, { json: exercise }).json()
 }
 
-export async function deleteExercise(_id: number): Promise<void> {
-    return;
+export async function deleteExercise(id: number): Promise<void> {
+    if (USE_MOCKS) return
+    await api.delete(`exercises/${id.toString()}`)
 }
 
-// Referencia para cuando haya back:
-//export const EXERCISES_ENDPOINT = EXERCISES_URL

@@ -8,18 +8,18 @@ import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
 import Row from 'react-bootstrap/Row'
 
-import type { Exercise } from '../types/exercise'
-import type { ExerciseOptions } from '../types/option'
-import { useExercises } from '../context/ExerciseContext'
-import { getExerciseOptions } from '../services/optionsService'
+import type { Exercise } from '../../types/exercise'
+import type { ExerciseOptions } from '../../types/option'
+import { useExercises } from '../../context/ExerciseContext'
+import { getExerciseOptions } from '../../services/optionsService'
 import './CreateExercise.css'
 
 const initialExercise: Exercise = {
     id: 0,
     name: '',
-    bodyRegion: '',
-    motionType: '',
-    material: '',
+    bodyRegion: 0,
+    motionType: 0,
+    material: 0,
     linkVideo: '',
     instructions: '',
 }
@@ -81,12 +81,8 @@ function CreateExercise() {
     return (
         <section className="exercise-page">
             <p className="exercise-breadcrumb">
-                <span className="exercise-breadcrumb-current">
-                    Ejercicios
-                </span>
-                <span className="exercise-breadcrumb-separator">
-                    {' > '}
-                </span>
+                <span className="exercise-breadcrumb-current">Ejercicios</span>
+                <span className="exercise-breadcrumb-separator">{' > '}</span>
                 {isEditing ? 'Editar ejercicio' : 'Nuevo ejercicio'}
             </p>
 
@@ -95,9 +91,7 @@ function CreateExercise() {
             </h1>
 
             {isEditing && !existingExercise && (
-                <Alert variant="warning">
-                    No se encontró el ejercicio solicitado.
-                </Alert>
+                <Alert variant="warning">No se encontró el ejercicio solicitado.</Alert>
             )}
 
             <Card className="exercise-card">
@@ -105,17 +99,14 @@ function CreateExercise() {
                     <Form noValidate validated={formValidated} onSubmit={handleSubmit}>
                         <Form.Group className="mb-4" controlId="exerciseName">
                             <Form.Label className="fw-semibold">
-                                Nombre del ejercicio
-                                <span className="required-mark"> *</span>
+                                Nombre del ejercicio<span className="required-mark"> *</span>
                             </Form.Label>
                             <Form.Control
                                 type="text"
                                 placeholder="Ej.: Estiramiento de isquiotibiales con correa"
                                 value={exercise.name}
                                 minLength={3}
-                                onChange={(event) =>
-                                    setExercise({ ...exercise, name: event.target.value })
-                                }
+                                onChange={(event) => setExercise({ ...exercise, name: event.target.value })}
                                 required
                             />
                             <Form.Control.Feedback type="invalid">
@@ -127,21 +118,16 @@ function CreateExercise() {
                             <Col md={6}>
                                 <Form.Group className="mb-4" controlId="bodyRegion">
                                     <Form.Label className="fw-semibold">
-                                        Región corporal
-                                        <span className="required-mark"> *</span>
+                                        Región corporal<span className="required-mark"> *</span>
                                     </Form.Label>
                                     <Form.Select
                                         value={exercise.bodyRegion}
-                                        onChange={(event) =>
-                                            setExercise({ ...exercise, bodyRegion: event.target.value })
-                                        }
+                                        onChange={(event) => setExercise({ ...exercise, bodyRegion: Number(event.target.value) })}
                                         required
                                     >
                                         <option value="">Seleccioná una región</option>
                                         {options?.bodyRegions.map((opt) => (
-                                            <option key={opt.value} value={opt.value}>
-                                                {opt.label}
-                                            </option>
+                                            <option key={opt.id} value={opt.id}>{opt.label}</option>
                                         ))}
                                     </Form.Select>
                                     <Form.Control.Feedback type="invalid">
@@ -153,21 +139,16 @@ function CreateExercise() {
                             <Col md={6}>
                                 <Form.Group className="mb-4" controlId="motionType">
                                     <Form.Label className="fw-semibold">
-                                        Tipo de movimiento
-                                        <span className="required-mark"> *</span>
+                                        Tipo de movimiento<span className="required-mark"> *</span>
                                     </Form.Label>
                                     <Form.Select
                                         value={exercise.motionType}
-                                        onChange={(event) =>
-                                            setExercise({ ...exercise, motionType: event.target.value })
-                                        }
+                                        onChange={(event) => setExercise({ ...exercise, motionType: Number(event.target.value) })}
                                         required
                                     >
                                         <option value="">Seleccioná un tipo</option>
                                         {options?.motionTypes.map((opt) => (
-                                            <option key={opt.value} value={opt.value}>
-                                                {opt.label}
-                                            </option>
+                                            <option key={opt.id} value={opt.id}>{opt.label}</option>
                                         ))}
                                     </Form.Select>
                                     <Form.Control.Feedback type="invalid">
@@ -178,36 +159,27 @@ function CreateExercise() {
                         </Row>
 
                         <Form.Group className="mb-4" controlId="material">
-                            <Form.Label className="fw-semibold">
-                                Material / Equipamiento
-                            </Form.Label>
+                            <Form.Label className="fw-semibold">Material / Equipamiento</Form.Label>
                             <Form.Select
                                 value={exercise.material}
-                                onChange={(event) =>
-                                    setExercise({ ...exercise, material: event.target.value })
-                                }
+                                onChange={(event) => setExercise({ ...exercise, material: Number(event.target.value) })}
                             >
                                 <option value="">Seleccioná el equipamiento requerido</option>
                                 {options?.materials.map((opt) => (
-                                    <option key={opt.value} value={opt.value}>
-                                        {opt.label}
-                                    </option>
+                                    <option key={opt.id} value={opt.id}>{opt.label}</option>
                                 ))}
                             </Form.Select>
                         </Form.Group>
 
                         <Form.Group className="mb-4" controlId="linkVideo">
                             <Form.Label className="fw-semibold">
-                                Link de vídeo de YouTube
-                                <span className="required-mark"> *</span>
+                                Link de vídeo de YouTube<span className="required-mark"> *</span>
                             </Form.Label>
                             <Form.Control
                                 type="url"
                                 placeholder="Ej.: https://www.youtube.com/watch?v=..."
                                 value={exercise.linkVideo}
-                                onChange={(event) =>
-                                    setExercise({ ...exercise, linkVideo: event.target.value })
-                                }
+                                onChange={(event) => setExercise({ ...exercise, linkVideo: event.target.value })}
                                 required
                             />
                             <Form.Control.Feedback type="invalid">
@@ -217,8 +189,7 @@ function CreateExercise() {
 
                         <Form.Group className="mb-4" controlId="instructions">
                             <Form.Label className="fw-semibold">
-                                Instrucciones de ejecución
-                                <span className="required-mark"> *</span>
+                                Instrucciones de ejecución<span className="required-mark"> *</span>
                             </Form.Label>
                             <Form.Control
                                 as="textarea"
@@ -226,9 +197,7 @@ function CreateExercise() {
                                 placeholder="Describí detalladamente los pasos para realizar el ejercicio."
                                 value={exercise.instructions}
                                 minLength={10}
-                                onChange={(event) =>
-                                    setExercise({ ...exercise, instructions: event.target.value })
-                                }
+                                onChange={(event) => setExercise({ ...exercise, instructions: event.target.value })}
                                 required
                             />
                             <Form.Control.Feedback type="invalid">

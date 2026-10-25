@@ -1,6 +1,6 @@
 
 export type Option = {
-    value: string
+    id: number
     label: string
 }
 

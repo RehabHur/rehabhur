@@ -8,11 +8,6 @@ import type { ExerciseOptions } from '../types/option'
 
 const OPTIONS_URL = `${API_URL}/options`
 
-// TODO: cuando el back esté listo, reemplazar por:
-//   GET ${OPTIONS_URL}/body-regions
-//   GET ${OPTIONS_URL}/motion-types
-//   GET ${OPTIONS_URL}/materials
-
 export async function getExerciseOptions(): Promise<ExerciseOptions> {
     return {
         bodyRegions: bodyRegionsMock,
