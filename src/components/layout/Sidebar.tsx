@@ -13,7 +13,7 @@ function Sidebar() {
 
                 <nav className="sidebar-navigation">
                     <NavLink to="/" className="sidebar-item" end>
-                        <span aria-hidden="true">▦</span>
+                        <i className="bi bi-house-door"></i>
                         Inicio
                     </NavLink>
 
@@ -23,22 +23,27 @@ function Sidebar() {
                             'sidebar-item' + (isActive ? ' sidebar-item-active' : '')
                         }
                     >
-                        <span aria-hidden="true">▤</span>
+                        <i className="bi bi-journal-medical"></i>
                         Ejercicios
                     </NavLink>
 
                     <button type="button" className="sidebar-item">
-                        <span aria-hidden="true">▧</span>
+                        <i className="bi bi-calendar2-check"></i>
                         Programas
                     </button>
 
-                    <button type="button" className="sidebar-item">
-                        <span aria-hidden="true">♙</span>
+                    <NavLink
+                        to="/persons"
+                        className={({ isActive }) =>
+                            'sidebar-item' + (isActive ? ' sidebar-item-active' : '')
+                        }
+                    >
+                        <i className="bi bi-people"></i>
                         Personas
-                    </button>
+                    </NavLink>
 
                     <button type="button" className="sidebar-item">
-                        <span aria-hidden="true">☼</span>
+                        <i className="bi bi-gear"></i>
                         Configuración
                     </button>
                 </nav>
@@ -54,5 +59,5 @@ function Sidebar() {
         </aside>
     )
 }
-// verificar commit
+
 export default Sidebar;

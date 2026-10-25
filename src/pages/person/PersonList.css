@@ -1,0 +1,87 @@
+/* Estilos para los avatares de la tabla */
+.person-name-cell {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.person-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: #e2f5ec;
+    color: #16845e;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.person-contact-cell {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    font-size: 14px;
+}
+
+/* Badges de Roles (colores basados en el Figma) */
+.badge-role {
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.badge-admin {
+    background-color: #e2f5ec;
+    color: #16845e;
+}
+
+.badge-docente {
+    background-color: #e3f2fd;
+    color: #1976d2;
+}
+
+.badge-estudiante {
+    background-color: #fff8e1;
+    color: #f57c00;
+}
+
+.badge-paciente {
+    background-color: #f3e5f5;
+    color: #7b1fa2;
+}
+
+/* Personalización de la tabla */
+.custom-table th {
+    color: #697985;
+    font-size: 13px;
+    font-weight: 600;
+    border-bottom: 1px solid #e6eeee;
+    padding-bottom: 12px;
+}
+
+.custom-table td {
+    padding: 16px 8px;
+    border-bottom: 1px solid #eff4f3;
+}
+
+/* Personalización de los Tabs de Bootstrap */
+.custom-tabs .nav-link {
+    color: #697985;
+    font-weight: 500;
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: 10px 16px;
+}
+
+.custom-tabs .nav-link:hover {
+    color: #16845e;
+}
+
+.custom-tabs .nav-link.active {
+    color: #16845e;
+    background: transparent;
+    border-bottom-color: #16845e;
+}
