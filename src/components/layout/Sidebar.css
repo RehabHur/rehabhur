@@ -1,3 +1,4 @@
+
 .sidebar {
     position: fixed;
     top: 0;
@@ -10,9 +11,11 @@
     flex-direction: column;
     justify-content: space-between;
     z-index: 1000;
-    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.02); /* Sombra sutil */
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.02);
+    transition: all 0.3s ease;
 }
 
+/* --- Marca (Logo) --- */
 .sidebar-brand {
     height: 72px;
     padding: 0 24px;
@@ -43,6 +46,7 @@
     letter-spacing: -0.5px;
 }
 
+/* --- Navegación --- */
 .sidebar-navigation {
     padding: 24px 16px;
     display: flex;
@@ -128,4 +132,50 @@
     margin: 2px 0 0;
     color: #697985;
     font-size: 11px;
+}
+
+
+@media (max-width: 1024px) {
+    .sidebar {
+        /* Cambiamos de barra lateral a barra inferior */
+        position: fixed;
+        bottom: 0;
+        top: auto;
+        width: 100%;
+        height: 70px;
+        flex-direction: row; /* Elementos en fila horizontal */
+        border-right: none;
+        border-top: 1px solid #e6eeee;
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    /* Ocultamos el logo superior y el perfil de abajo para ganar espacio */
+    .sidebar-brand,
+    .sidebar-user {
+        display: none; 
+    }
+
+    /* Acomodamos los items en el centro de la pantalla */
+    .sidebar-navigation {
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        width: 100%;
+        padding: 0 10px;
+        margin: 0;
+    }
+
+    /* Achicamos los botones: ícono arriba, texto chiquito abajo */
+    .sidebar-item {
+        flex-direction: column;
+        gap: 4px;
+        font-size: 11px;
+        justify-content: center;
+        align-items: center;
+        padding: 8px;
+    }
+
+    .sidebar-item i {
+        font-size: 20px;
+    }
 }

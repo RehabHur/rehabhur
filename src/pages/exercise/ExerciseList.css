@@ -321,3 +321,42 @@
     font-size: 13px;
     font-weight: 500;
 }
+
+/* --- RESPONSIVE PARA CELULARES --- */
+@media (max-width: 768px) {
+    .library-grid {
+        grid-template-columns: 1fr; /* Una sola columna */
+    }
+
+    .library-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+    
+    .library-new-btn {
+        width: 100%;
+        text-align: center;
+    }
+
+    /* Apilamos los elementos de la tarjeta */
+    .library-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        position: relative;
+    }
+
+    /* Hacemos que los botones ocupen todo el ancho disponible abajo */
+    .library-item-actions {
+        width: 100%;
+        justify-content: flex-start; /* O flex-end si los querés a la derecha */
+        gap: 8px;
+    }
+
+    /* Achicamos un poquito el texto de los botones */
+    .library-btn {
+        padding: 6px 14px;
+        font-size: 12px;
+    }
+}

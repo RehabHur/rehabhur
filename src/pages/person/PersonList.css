@@ -85,3 +85,105 @@
     background: transparent;
     border-bottom-color: #16845e;
 }
+
+/* --- RESPONSIVE: TABLA DE PERSONAS --- */
+@media (max-width: 768px) {
+    .person-name-cell {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+    }
+    .library-item-actions {
+        flex-direction: column;
+        gap: 4px;
+    }
+    .custom-table th, 
+    .custom-table td {
+        font-size: 12px;
+        padding: 10px 4px;
+    }
+}
+
+/* --- RESPONSIVE PARA CELULARES (DISEÑO DE TARJETAS) --- */
+@media (max-width: 768px) {
+    .library-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .library-new-btn {
+        width: 100%;
+        text-align: center;
+    }
+
+    /* Eliminamos el scroll horizontal */
+    .table-responsive {
+        overflow-x: hidden;
+    }
+
+    /* Ocultamos el encabezado de la tabla tradicional */
+    .custom-table thead {
+        display: none;
+    }
+
+    /* Convertimos la tabla en un contenedor flexible */
+    .custom-table, 
+    .custom-table tbody, 
+    .custom-table tr, 
+    .custom-table td {
+        display: block;
+        width: 100%;
+    }
+
+    /* Cada fila se convierte en una tarjeta blanca */
+    .custom-table tr {
+        background-color: #ffffff;
+        border: 1px solid #e6eeee;
+        border-radius: 12px;
+        margin-bottom: 16px;
+        padding: 16px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+    }
+
+    /* Acomodamos las celdas dentro de la tarjeta */
+    .custom-table td {
+        padding: 8px 0;
+        border-bottom: 1px solid #f7faf9;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .custom-table td:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+    }
+
+    /* Reacomodamos el nombre y avatar */
+    .person-name-cell {
+        flex-direction: row;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .person-avatar {
+        width: 36px;
+        height: 36px;
+        font-size: 13px;
+    }
+
+    /* Hacemos que la columna de contacto se vea vertical */
+    .person-contact-cell {
+        align-items: flex-end;
+        text-align: right;
+    }
+
+    /* Los botones de editar/eliminar abajo de todo, alineados a la derecha */
+    .library-item-actions {
+        width: 100%;
+        justify-content: flex-end;
+        gap: 8px;
+        margin-top: 8px;
+    }
+}
