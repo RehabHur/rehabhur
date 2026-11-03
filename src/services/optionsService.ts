@@ -7,13 +7,9 @@ import {
 } from '../mocks/optionsMock'
 import type { ExerciseOptions } from '../types/option'
 
-const USE_MOCKS = false // Poner en false para probar el back real
-
-// Instancia de ky descomentar la const api y el import para usarla
-//const api = ky.create({ baseUrl: BASE_URL })
-
 
 // OPCIÓN 1: CONEXIÓN USANDO FETCH
+const USE_MOCKS = false // Poner en false para probar el back real
 
 export async function getExerciseOptions(): Promise<ExerciseOptions> {
     if (USE_MOCKS) {
@@ -44,8 +40,11 @@ export async function getExerciseOptions(): Promise<ExerciseOptions> {
 
 
 // OPCIÓN 2: CONEXIÓN USANDO KY
-
 /*
+const USE_MOCKS = false // Poner en false para probar el back real
+
+const api = ky.create({ baseUrl: BASE_URL })
+
 export async function getExerciseOptionsKy(): Promise<ExerciseOptions> {
     if (USE_MOCKS) {
         return {
@@ -55,7 +54,6 @@ export async function getExerciseOptionsKy(): Promise<ExerciseOptions> {
         }
     }
 
-    // En ky también podemos usar Promise.all
     const [bodyRegions, motionTypes, materials] = await Promise.all([
         api.get('options/body-regions').json(),
         api.get('options/motion-types').json(),

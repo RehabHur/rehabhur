@@ -1,5 +1,4 @@
 import { Routes, Route } from 'react-router-dom'
-import './App.css'
 import Home from './pages/home/Home' 
 import CreateExercise from './pages/exercise/CreateExercise' 
 import ExerciseList from './pages/exercise/ExerciseList' 

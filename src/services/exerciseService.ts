@@ -1,17 +1,12 @@
 //import ky from 'ky'
+import { BASE_URL } from '../api'
 import { exercisesMock } from '../mocks/exercisesMock'
 import type { Exercise } from '../types/exercise'
 
 
-const USE_MOCKS = false // Poner en false para probar el back real
-
-const BASE_URL = 'http://localhost:3000/api/v1'
-
-// Instancia de ky descomentar la const api y el import para usarla
-//const api = ky.create({ baseUrl: BASE_URL })
-
-
 // OPCIÓN 1: CONEXIÓN USANDO FETCH
+
+const USE_MOCKS = false // Poner en false para probar el back real
 
 export async function getExercises(): Promise<Exercise[]> {
     if (USE_MOCKS) return exercisesMock
@@ -67,8 +62,11 @@ export async function deleteExercise(id: number): Promise<void> {
 
 
 // OPCIÓN 2: CONEXIÓN USANDO KY
-
 /*
+const USE_MOCKS = false // Poner en false para probar el back real
+
+const api = ky.create({ baseUrl: BASE_URL })
+
 export async function getExercisesKy(): Promise<Exercise[]> {
     if (USE_MOCKS) return exercisesMock
     return await api.get('exercises').json()
