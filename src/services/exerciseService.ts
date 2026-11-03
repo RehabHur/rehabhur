@@ -1,94 +1,45 @@
-//import ky from 'ky'
 import { BASE_URL } from '../api'
-import { exercisesMock } from '../mocks/exercisesMock'
-import type { Exercise } from '../types/exercise'
-
-
-// OPCIÓN 1: CONEXIÓN USANDO FETCH
-
-const USE_MOCKS = false // Poner en false para probar el back real
+import type { Exercise, ExerciseInput } from '../types/exercise'
+import { readJson } from './http'
 
 export async function getExercises(): Promise<Exercise[]> {
-    if (USE_MOCKS) return exercisesMock
-
     const response = await fetch(`${BASE_URL}/exercises`)
-    if (!response.ok) throw new Error('No se pudieron obtener los ejercicios')
-    return await response.json()
+    return readJson<Exercise[]>(response, 'No se pudieron obtener los ejercicios')
 }
 
-export async function getExerciseById(id: number): Promise<Exercise | undefined> {
-    if (USE_MOCKS) return exercisesMock.find((e) => e.id === id)
-
+export async function getExerciseById(id: number): Promise<Exercise> {
     const response = await fetch(`${BASE_URL}/exercises/${id.toString()}`)
-    if (!response.ok) throw new Error('No se pudo obtener el ejercicio')
-    return await response.json()
+    return readJson<Exercise>(response, 'No se pudo obtener el ejercicio')
 }
 
-export async function createExercise(exercise: Exercise): Promise<Exercise> {
-    if (USE_MOCKS) return exercise
-
+export async function createExercise(exercise: ExerciseInput): Promise<Exercise> {
     const response = await fetch(`${BASE_URL}/exercises`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(exercise),
     })
-    if (!response.ok) throw new Error('No se pudo crear el ejercicio')
-    return await response.json()
+    return readJson<Exercise>(response, 'No se pudo crear el ejercicio')
 }
 
 export async function updateExercise(exercise: Exercise): Promise<Exercise> {
-    if (USE_MOCKS) return exercise
-
     const response = await fetch(`${BASE_URL}/exercises/${exercise.id.toString()}`, {
-        method: 'PUT',
+        method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(exercise),
+        body: JSON.stringify({
+            name: exercise.name,
+            bodyRegion: exercise.bodyRegion,
+            motionType: exercise.motionType,
+            material: exercise.material,
+            linkVideo: exercise.linkVideo,
+            instructions: exercise.instructions,
+        }),
     })
-    if (!response.ok) throw new Error('No se pudo actualizar el ejercicio')
-    return await response.json()
+    return readJson<Exercise>(response, 'No se pudo actualizar el ejercicio')
 }
 
 export async function deleteExercise(id: number): Promise<void> {
-    if (USE_MOCKS) return
-
     const response = await fetch(`${BASE_URL}/exercises/${id.toString()}`, {
         method: 'DELETE',
     })
-    if (!response.ok) throw new Error('No se pudo eliminar el ejercicio')
+    await readJson<void>(response, 'No se pudo eliminar el ejercicio')
 }
-
-
-
-
-
-// OPCIÓN 2: CONEXIÓN USANDO KY
-/*
-const USE_MOCKS = false // Poner en false para probar el back real
-
-const api = ky.create({ baseUrl: BASE_URL })
-
-export async function getExercisesKy(): Promise<Exercise[]> {
-    if (USE_MOCKS) return exercisesMock
-    return await api.get('exercises').json()
-}
-
-export async function getExerciseByIdKy(id: number): Promise<Exercise | undefined> {
-    if (USE_MOCKS) return exercisesMock.find((e) => e.id === id)
-    return await api.get(`exercises/${id.toString()}`).json()
-}
-
-export async function createExerciseKy(exercise: Exercise): Promise<Exercise> {
-    if (USE_MOCKS) return exercise
-    return await api.post('exercises', { json: exercise }).json()
-}
-
-export async function updateExerciseKy(exercise: Exercise): Promise<Exercise> {
-    if (USE_MOCKS) return exercise
-    return await api.put(`exercises/${exercise.id.toString()}`, { json: exercise }).json()
-}
-
-export async function deleteExerciseKy(id: number): Promise<void> {
-    if (USE_MOCKS) return
-    await api.delete(`exercises/${id.toString()}`)
-}
-*/

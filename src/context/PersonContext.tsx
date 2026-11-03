@@ -1,29 +1,12 @@
-
-import {
-    createContext,
-    useContext,
-    useEffect,
-    useState,
-    type ReactNode,
-} from 'react'
-import type { Person } from '../types/person'
+import { useEffect, useState, type ReactNode } from 'react'
+import type { Person, PersonInput } from '../types/person'
 import {
     getPersons,
     createPerson,
     updatePerson as updatePersonService,
     deletePerson as deletePersonService,
 } from '../services/personService'
-
-type PersonContextType = {
-    persons: Person[]
-    loading: boolean
-    error: string | null
-    addPerson: (person: Person) => Promise<void>
-    updatePerson: (person: Person) => Promise<void>
-    removePerson: (id: number) => Promise<void>
-}
-
-const PersonContext = createContext<PersonContextType | undefined>(undefined)
+import { PersonContext } from './personContextValue'
 
 export function PersonProvider({ children }: { children: ReactNode }) {
     const [persons, setPersons] = useState<Person[]>([])
@@ -44,7 +27,7 @@ export function PersonProvider({ children }: { children: ReactNode }) {
         load()
     }, [])
 
-    const addPerson = async (person: Person) => {
+    const addPerson = async (person: PersonInput) => {
         const created = await createPerson(person)
         setPersons((prev) => [...prev, created])
     }
@@ -66,10 +49,4 @@ export function PersonProvider({ children }: { children: ReactNode }) {
             {children}
         </PersonContext.Provider>
     )
-}
-
-export function usePersons() {
-    const context = useContext(PersonContext)
-    if (!context) throw new Error('usePersons debe usarse dentro de PersonProvider')
-    return context
 }

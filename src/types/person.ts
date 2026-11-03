@@ -10,3 +10,5 @@ export type Person = {
     nationality: string
     role: Role
 }
+
+export type PersonInput = Omit<Person, 'id'>

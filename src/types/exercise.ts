@@ -2,9 +2,11 @@
 export type Exercise = {
     id: number
     name: string
-    bodyRegion: number
-    motionType: number
-    material: number
+    bodyRegion: string
+    motionType: string
+    material: string
     linkVideo: string
     instructions: string
 }
+
+export type ExerciseInput = Omit<Exercise, 'id'>

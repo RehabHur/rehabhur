@@ -1,75 +1,48 @@
-# React + TypeScript + Vite
+# RehabHur — Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicación web de telerehabilitación construida con React 19, TypeScript y Vite.
+Consume la API REST de `rehabhur-api`.
 
-Currently, two official plugins are available:
+## Requisitos
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Node.js 20 o superior
+- npm
+- La API de RehabHur corriendo (por defecto en `http://localhost:3000`)
 
-## React Compiler
+## Desarrollo
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```sh
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+Vite publica la aplicación en `http://localhost:5173`.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Conexión con la API
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+La URL base se configura con la variable de entorno `VITE_API_URL`. Si no se
+define, se usa `http://localhost:3000/api/v1`.
 
+```sh
+cp .env.example .env
 ```
+
+La API debe tener CORS habilitado, ya que el front corre en otro puerto.
+
+## Scripts
+
+- `npm run dev`: servidor de desarrollo con HMR.
+- `npm run build`: verificación de tipos y build de producción.
+- `npm run lint`: análisis con ESLint.
+- `npm run preview`: vista previa del build.
+
+## Módulos conectados
+
+- **Ejercicios**: listado, búsqueda, creación, edición y eliminación contra
+  `/api/v1/exercises`.
+- **Opciones del formulario**: regiones corporales, tipos de movimiento y
+  materiales desde `/api/v1/options`.
+- **Personas**: listado por rol, creación, edición y eliminación contra
+  `/api/v1/persons`.
+
+Los datos de la API son en memoria: se reinician al reiniciar el servidor.

@@ -1,15 +1,13 @@
 
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { useExercises } from '../../context/ExerciseContext'
+import { useExercises } from '../../context/useExercises'
 import type { Exercise } from '../../types/exercise'
-import { bodyRegionsMock, motionTypesMock, materialsMock } from '../../mocks/optionsMock'
+import { getErrorMessage } from '../../services/http'
 import { getEmbedUrl, getThumbnailUrl } from '../../utils/youtube'
 import './ExerciseList.css'
 
 const ITEMS_PER_PAGE = 8
-
-const getLabel = (list: any[], id: number) => list.find(opt => opt.id === id)?.label || '-'
 
 function ExerciseList() {
     const { exercises, loading, error, removeExercise } = useExercises()
@@ -18,13 +16,15 @@ function ExerciseList() {
     const [selected, setSelected] = useState<Exercise | null>(null)
     const [search, setSearch] = useState('')
     const [currentPage, setCurrentPage] = useState(1)
+    const [actionError, setActionError] = useState<string | null>(null)
 
     const filteredExercises = exercises.filter((e) => {
         const text = search.toLowerCase()
         return (
             e.name.toLowerCase().includes(text) ||
-            getLabel(bodyRegionsMock, e.bodyRegion).toLowerCase().includes(text) ||
-            getLabel(materialsMock, e.material).toLowerCase().includes(text)
+            e.bodyRegion.toLowerCase().includes(text) ||
+            e.motionType.toLowerCase().includes(text) ||
+            e.material.toLowerCase().includes(text)
         )
     })
 
@@ -40,8 +40,13 @@ function ExerciseList() {
     const handleDelete = async (id: number, event: React.MouseEvent) => {
         event.stopPropagation()
         if (!window.confirm('¿Seguro que querés eliminar este ejercicio?')) return
-        await removeExercise(id)
-        if (selected?.id === id) setSelected(null)
+        try {
+            setActionError(null)
+            await removeExercise(id)
+            if (selected?.id === id) setSelected(null)
+        } catch (error) {
+            setActionError(getErrorMessage(error, 'No se pudo eliminar el ejercicio.'))
+        }
     }
 
     const handleEdit = (id: number, event: React.MouseEvent) => {
@@ -63,11 +68,13 @@ function ExerciseList() {
                 <span className="library-search-icon" aria-hidden="true">⌕</span>
                 <input
                     type="text"
-                    placeholder="Buscar por nombre, región o material..."
+                    placeholder="Buscar por nombre, región, tipo o material..."
                     value={search}
                     onChange={handleSearch}
                 />
             </div>
+
+            {actionError && <p className="library-state library-state-error">{actionError}</p>}
 
             <div className="library-grid">
                 <div className="library-list-card">
@@ -89,7 +96,7 @@ function ExerciseList() {
                                 <div className="library-item-info">
                                     <p className="library-item-name">{exercise.name}</p>
                                     <p className="library-item-meta">
-                                        {getLabel(bodyRegionsMock, exercise.bodyRegion)} · {getLabel(motionTypesMock, exercise.motionType)}
+                                        {exercise.bodyRegion} · {exercise.motionType}
                                     </p>
                                 </div>
 

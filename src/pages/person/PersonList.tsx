@@ -1,20 +1,28 @@
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import Tab from 'react-bootstrap/Tab'
 import Tabs from 'react-bootstrap/Tabs'
-import { usePersons } from '../../context/PersonContext'
-import type { Person, Role } from '../../types/person'
+import { usePersons } from '../../context/usePersons'
+import type { Role } from '../../types/person'
+import { getErrorMessage } from '../../services/http'
 import './PersonList.css'
 
 const ITEMS_PER_PAGE = 8
+const roles: Role[] = ['admin', 'docente', 'estudiante', 'paciente']
+
+function getInitialRole(value: string | null): Role {
+    return roles.includes(value as Role) ? (value as Role) : 'paciente'
+}
 
 function PersonList() {
     const { persons, loading, error, removePerson } = usePersons()
     const navigate = useNavigate()
+    const [searchParams, setSearchParams] = useSearchParams()
 
     const [search, setSearch] = useState('')
     const [currentPage, setCurrentPage] = useState(1)
-    const [activeTab, setActiveTab] = useState<Role>('admin') // Arranca en Administrador
+    const [activeTab, setActiveTab] = useState<Role>(getInitialRole(searchParams.get('role')))
+    const [actionError, setActionError] = useState<string | null>(null)
 
     // 1. Filtramos por búsqueda y por la pestaña activa
     const filteredPersons = persons.filter((p) => {
@@ -41,14 +49,25 @@ function PersonList() {
     }
 
     const handleTabChange = (key: string | null) => {
-        setActiveTab((key as Role) || 'admin')
+        const role = getInitialRole(key)
+        setActiveTab(role)
+        setSearchParams((prev) => {
+            const next = new URLSearchParams(prev)
+            next.set('role', role)
+            return next
+        }, { replace: true })
         setCurrentPage(1)
     }
 
     const handleDelete = async (id: number, event: React.MouseEvent) => {
         event.stopPropagation()
         if (!window.confirm('¿Seguro que querés eliminar esta persona?')) return
-        await removePerson(id)
+        try {
+            setActionError(null)
+            await removePerson(id)
+        } catch (error) {
+            setActionError(getErrorMessage(error, 'No se pudo eliminar la persona.'))
+        }
     }
 
     const handleEdit = (id: number) => {
@@ -74,6 +93,8 @@ function PersonList() {
                     onChange={handleSearch}
                 />
             </div>
+
+            {actionError && <p className="library-state library-state-error">{actionError}</p>}
 
             {/* Pestañas de Bootstrap para filtrar por rol */}
             <Tabs

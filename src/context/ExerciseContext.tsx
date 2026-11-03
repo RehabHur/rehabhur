@@ -1,29 +1,12 @@
-
-import {
-    createContext,
-    useContext,
-    useEffect,
-    useState,
-    type ReactNode,
-} from 'react'
-import type { Exercise } from '../types/exercise'
+import { useEffect, useState, type ReactNode } from 'react'
+import type { Exercise, ExerciseInput } from '../types/exercise'
 import {
     getExercises,
     createExercise,
     updateExercise as updateExerciseService,
     deleteExercise as deleteExerciseService,
 } from '../services/exerciseService'
-
-type ExerciseContextType = {
-    exercises: Exercise[]
-    loading: boolean
-    error: string | null
-    addExercise: (exercise: Exercise) => Promise<void>
-    updateExercise: (exercise: Exercise) => Promise<void>
-    removeExercise: (id: number) => Promise<void>
-}
-
-const ExerciseContext = createContext<ExerciseContextType | undefined>(undefined)
+import { ExerciseContext } from './exerciseContextValue'
 
 export function ExerciseProvider({ children }: { children: ReactNode }) {
     const [exercises, setExercises] = useState<Exercise[]>([])
@@ -44,7 +27,7 @@ export function ExerciseProvider({ children }: { children: ReactNode }) {
         load()
     }, [])
 
-    const addExercise = async (exercise: Exercise) => {
+    const addExercise = async (exercise: ExerciseInput) => {
         const created = await createExercise(exercise)
         setExercises((prev) => [...prev, created])
     }
@@ -75,12 +58,4 @@ export function ExerciseProvider({ children }: { children: ReactNode }) {
             {children}
         </ExerciseContext.Provider>
     )
-}
-
-export function useExercises() {
-    const context = useContext(ExerciseContext)
-    if (!context) {
-        throw new Error('useExercises debe usarse dentro de ExerciseProvider')
-    }
-    return context
 }

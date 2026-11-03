@@ -8,51 +8,59 @@ import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
 import Row from 'react-bootstrap/Row'
 
-import type { Exercise } from '../../types/exercise'
+import type { Exercise, ExerciseInput } from '../../types/exercise'
 import type { ExerciseOptions } from '../../types/option'
-import { useExercises } from '../../context/ExerciseContext'
+import { useExercises } from '../../context/useExercises'
 import { getExerciseOptions } from '../../services/optionsService'
+import { getErrorMessage } from '../../services/http'
 import './CreateExercise.css'
 
 const initialExercise: Exercise = {
     id: 0,
     name: '',
-    bodyRegion: 0,
-    motionType: 0,
-    material: 0,
+    bodyRegion: '',
+    motionType: '',
+    material: '',
     linkVideo: '',
     instructions: '',
 }
 
-function CreateExercise() {
-    const { id } = useParams<{ id: string }>()
+function toExerciseInput(exercise: Exercise): ExerciseInput {
+    return {
+        name: exercise.name,
+        bodyRegion: exercise.bodyRegion,
+        motionType: exercise.motionType,
+        material: exercise.material,
+        linkVideo: exercise.linkVideo,
+        instructions: exercise.instructions,
+    }
+}
+
+type ExerciseFormProps = {
+    isEditing: boolean
+    existingExercise?: Exercise
+}
+
+function ExerciseForm({ isEditing, existingExercise }: ExerciseFormProps) {
     const navigate = useNavigate()
-    const { exercises, addExercise, updateExercise } = useExercises()
+    const { addExercise, updateExercise } = useExercises()
 
-    const isEditing = Boolean(id)
-    const existingExercise = isEditing
-        ? exercises.find((e) => e.id === Number(id))
-        : undefined
-
-    const [exercise, setExercise] = useState<Exercise>(
-        existingExercise ?? initialExercise
-    )
+    const [exercise, setExercise] = useState<Exercise>(existingExercise ?? initialExercise)
     const [options, setOptions] = useState<ExerciseOptions | null>(null)
     const [formValidated, setFormValidated] = useState(false)
+    const [submitError, setSubmitError] = useState<string | null>(null)
+    const [optionsError, setOptionsError] = useState<string | null>(null)
 
     useEffect(() => {
         async function loadOptions() {
-            const data = await getExerciseOptions()
-            setOptions(data)
+            try {
+                setOptions(await getExerciseOptions())
+            } catch (error) {
+                setOptionsError(getErrorMessage(error, 'No se pudieron cargar las opciones.'))
+            }
         }
         loadOptions()
     }, [])
-
-    useEffect(() => {
-        if (existingExercise) {
-            setExercise(existingExercise)
-        }
-    }, [id, exercises])
 
     const handleSubmit = async (event: SubmitEvent<HTMLFormElement>) => {
         event.preventDefault()
@@ -64,14 +72,20 @@ function CreateExercise() {
             return
         }
 
-        if (isEditing && existingExercise) {
-            await updateExercise({ ...exercise, id: existingExercise.id })
-        } else {
-            await addExercise({ ...exercise, id: Date.now() })
-        }
+        try {
+            setSubmitError(null)
 
-        setFormValidated(false)
-        navigate('/exercises')
+            if (isEditing && existingExercise) {
+                await updateExercise({ ...exercise, id: existingExercise.id })
+            } else {
+                await addExercise(toExerciseInput(exercise))
+            }
+
+            setFormValidated(false)
+            navigate('/exercises')
+        } catch (error) {
+            setSubmitError(getErrorMessage(error, 'No se pudo guardar el ejercicio.'))
+        }
     }
 
     const handleCancel = () => {
@@ -90,9 +104,8 @@ function CreateExercise() {
                 {isEditing ? 'Editar ejercicio' : 'Crear nuevo ejercicio'}
             </h1>
 
-            {isEditing && !existingExercise && (
-                <Alert variant="warning">No se encontró el ejercicio solicitado.</Alert>
-            )}
+            {submitError && <Alert variant="danger">{submitError}</Alert>}
+            {optionsError && <Alert variant="warning">{optionsError}</Alert>}
 
             <Card className="exercise-card">
                 <Card.Body className="p-4 p-md-5">
@@ -122,12 +135,15 @@ function CreateExercise() {
                                     </Form.Label>
                                     <Form.Select
                                         value={exercise.bodyRegion}
-                                        onChange={(event) => setExercise({ ...exercise, bodyRegion: Number(event.target.value) })}
+                                        onChange={(event) => setExercise({ ...exercise, bodyRegion: event.target.value })}
                                         required
                                     >
                                         <option value="">Seleccioná una región</option>
+                                        {exercise.bodyRegion && !options?.bodyRegions.some((opt) => opt.label === exercise.bodyRegion) && (
+                                            <option value={exercise.bodyRegion}>{exercise.bodyRegion}</option>
+                                        )}
                                         {options?.bodyRegions.map((opt) => (
-                                            <option key={opt.id} value={opt.id}>{opt.label}</option>
+                                            <option key={opt.id} value={opt.label}>{opt.label}</option>
                                         ))}
                                     </Form.Select>
                                     <Form.Control.Feedback type="invalid">
@@ -143,12 +159,15 @@ function CreateExercise() {
                                     </Form.Label>
                                     <Form.Select
                                         value={exercise.motionType}
-                                        onChange={(event) => setExercise({ ...exercise, motionType: Number(event.target.value) })}
+                                        onChange={(event) => setExercise({ ...exercise, motionType: event.target.value })}
                                         required
                                     >
                                         <option value="">Seleccioná un tipo</option>
+                                        {exercise.motionType && !options?.motionTypes.some((opt) => opt.label === exercise.motionType) && (
+                                            <option value={exercise.motionType}>{exercise.motionType}</option>
+                                        )}
                                         {options?.motionTypes.map((opt) => (
-                                            <option key={opt.id} value={opt.id}>{opt.label}</option>
+                                            <option key={opt.id} value={opt.label}>{opt.label}</option>
                                         ))}
                                     </Form.Select>
                                     <Form.Control.Feedback type="invalid">
@@ -159,16 +178,25 @@ function CreateExercise() {
                         </Row>
 
                         <Form.Group className="mb-4" controlId="material">
-                            <Form.Label className="fw-semibold">Material / Equipamiento</Form.Label>
+                            <Form.Label className="fw-semibold">
+                                Material / Equipamiento<span className="required-mark"> *</span>
+                            </Form.Label>
                             <Form.Select
                                 value={exercise.material}
-                                onChange={(event) => setExercise({ ...exercise, material: Number(event.target.value) })}
+                                onChange={(event) => setExercise({ ...exercise, material: event.target.value })}
+                                required
                             >
                                 <option value="">Seleccioná el equipamiento requerido</option>
+                                {exercise.material && !options?.materials.some((opt) => opt.label === exercise.material) && (
+                                    <option value={exercise.material}>{exercise.material}</option>
+                                )}
                                 {options?.materials.map((opt) => (
-                                    <option key={opt.id} value={opt.id}>{opt.label}</option>
+                                    <option key={opt.id} value={opt.label}>{opt.label}</option>
                                 ))}
                             </Form.Select>
+                            <Form.Control.Feedback type="invalid">
+                                Seleccioná el material o equipamiento.
+                            </Form.Control.Feedback>
                         </Form.Group>
 
                         <Form.Group className="mb-4" controlId="linkVideo">
@@ -217,6 +245,40 @@ function CreateExercise() {
                 </Card.Body>
             </Card>
         </section>
+    )
+}
+
+function CreateExercise() {
+    const { id } = useParams<{ id: string }>()
+    const { exercises, loading, error } = useExercises()
+
+    const isEditing = Boolean(id)
+    const existingExercise = isEditing
+        ? exercises.find((e) => e.id === Number(id))
+        : undefined
+
+    if (isEditing && loading) {
+        return <section className="exercise-page"><p className="library-state">Cargando ejercicio...</p></section>
+    }
+
+    if (isEditing && error) {
+        return <section className="exercise-page"><p className="library-state library-state-error">{error}</p></section>
+    }
+
+    if (isEditing && !existingExercise) {
+        return (
+            <section className="exercise-page">
+                <Alert variant="warning">No se encontró el ejercicio solicitado.</Alert>
+            </section>
+        )
+    }
+
+    return (
+        <ExerciseForm
+            key={existingExercise?.id ?? 'new'}
+            isEditing={isEditing}
+            existingExercise={existingExercise}
+        />
     )
 }
 

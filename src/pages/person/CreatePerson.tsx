@@ -1,4 +1,4 @@
-import { useEffect, useState, type SubmitEvent } from 'react'
+import { useState, type SubmitEvent } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import Card from 'react-bootstrap/Card'
 import Col from 'react-bootstrap/Col'
@@ -7,8 +7,9 @@ import Row from 'react-bootstrap/Row'
 import Button from 'react-bootstrap/Button'
 import Alert from 'react-bootstrap/Alert'
 
-import type { Person } from '../../types/person'
-import { usePersons } from '../../context/PersonContext'
+import type { Person, Role } from '../../types/person'
+import { usePersons } from '../../context/usePersons'
+import { getErrorMessage } from '../../services/http'
 // import './CreatePerson.css'
 
 const initialPerson: Person = {
@@ -21,22 +22,18 @@ const initialPerson: Person = {
     role: 'paciente',
 }
 
-function CreatePerson() {
-    const { id } = useParams<{ id: string }>()
-    const navigate = useNavigate()
-    const { persons, addPerson, updatePerson } = usePersons()
+type PersonFormProps = {
+    isEditing: boolean
+    existingPerson?: Person
+}
 
-    const isEditing = Boolean(id)
-    const existingPerson = isEditing
-        ? persons.find((p) => p.id === Number(id))
-        : undefined
+function PersonForm({ isEditing, existingPerson }: PersonFormProps) {
+    const navigate = useNavigate()
+    const { addPerson, updatePerson } = usePersons()
 
     const [person, setPerson] = useState<Person>(existingPerson ?? initialPerson)
     const [formValidated, setFormValidated] = useState(false)
-
-    useEffect(() => {
-        if (existingPerson) setPerson(existingPerson)
-    }, [id, persons])
+    const [submitError, setSubmitError] = useState<string | null>(null)
 
     const handleSubmit = async (event: SubmitEvent<HTMLFormElement>) => {
         event.preventDefault()
@@ -48,14 +45,27 @@ function CreatePerson() {
             return
         }
 
-        if (isEditing && existingPerson) {
-            await updatePerson({ ...person, id: existingPerson.id })
-        } else {
-            await addPerson({ ...person, id: Date.now() })
-        }
+        try {
+            setSubmitError(null)
 
-        setFormValidated(false)
-        navigate('/persons')
+            if (isEditing && existingPerson) {
+                await updatePerson({ ...person, id: existingPerson.id })
+            } else {
+                await addPerson({
+                    firstName: person.firstName,
+                    lastName: person.lastName,
+                    dni: person.dni,
+                    email: person.email,
+                    nationality: person.nationality,
+                    role: person.role,
+                })
+            }
+
+            setFormValidated(false)
+            navigate(`/persons?role=${person.role}`)
+        } catch (error) {
+            setSubmitError(getErrorMessage(error, 'No se pudo guardar la persona.'))
+        }
     }
 
     const handleCancel = () => navigate('/persons')
@@ -72,9 +82,7 @@ function CreatePerson() {
                 {isEditing ? 'Editar persona' : 'Agregar nueva persona'}
             </h1>
 
-            {isEditing && !existingPerson && (
-                <Alert variant="warning">No se encontró la persona solicitada.</Alert>
-            )}
+            {submitError && <Alert variant="danger">{submitError}</Alert>}
 
             <Card className="exercise-card">
                 <Card.Body className="p-4 p-md-5">
@@ -133,7 +141,7 @@ function CreatePerson() {
                                     <Form.Label className="fw-semibold">Rol de usuario<span className="required-mark"> *</span></Form.Label>
                                     <Form.Select
                                         value={person.role}
-                                        onChange={(e) => setPerson({ ...person, role: e.target.value as any })}
+                                        onChange={(e) => setPerson({ ...person, role: e.target.value as Role })}
                                         required
                                     >
                                         <option value="paciente">Paciente</option>
@@ -158,12 +166,13 @@ function CreatePerson() {
                         </Form.Group>
 
                         <Form.Group className="mb-4" controlId="nationality">
-                            <Form.Label className="fw-semibold">Nacionalidad</Form.Label>
+                            <Form.Label className="fw-semibold">Nacionalidad<span className="required-mark"> *</span></Form.Label>
                             <Form.Control
                                 type="text"
                                 placeholder="Ej.: Argentina"
                                 value={person.nationality}
                                 onChange={(e) => setPerson({ ...person, nationality: e.target.value })}
+                                required
                             />
                         </Form.Group>
 
@@ -179,6 +188,40 @@ function CreatePerson() {
                 </Card.Body>
             </Card>
         </section>
+    )
+}
+
+function CreatePerson() {
+    const { id } = useParams<{ id: string }>()
+    const { persons, loading, error } = usePersons()
+
+    const isEditing = Boolean(id)
+    const existingPerson = isEditing
+        ? persons.find((p) => p.id === Number(id))
+        : undefined
+
+    if (isEditing && loading) {
+        return <section className="exercise-page"><p className="library-state">Cargando persona...</p></section>
+    }
+
+    if (isEditing && error) {
+        return <section className="exercise-page"><p className="library-state library-state-error">{error}</p></section>
+    }
+
+    if (isEditing && !existingPerson) {
+        return (
+            <section className="exercise-page">
+                <Alert variant="warning">No se encontró la persona solicitada.</Alert>
+            </section>
+        )
+    }
+
+    return (
+        <PersonForm
+            key={existingPerson?.id ?? 'new'}
+            isEditing={isEditing}
+            existingPerson={existingPerson}
+        />
     )
 }
 
