@@ -97,6 +97,10 @@
     color: #12998f;
 }
 
+.sidebar-item-logout {
+    display: none;
+}
+
 /* --- Footer del Usuario --- */
 .sidebar-user {
     min-height: 72px;
@@ -119,6 +123,12 @@
     justify-content: center;
     font-size: 13px;
     font-weight: 700;
+    flex-shrink: 0;
+}
+
+.sidebar-user-info {
+    flex: 1;
+    min-width: 0;
 }
 
 .sidebar-user-name {
@@ -132,6 +142,22 @@
     margin: 2px 0 0;
     color: #697985;
     font-size: 11px;
+}
+
+.sidebar-logout {
+    padding: 6px 8px;
+    border: none;
+    border-radius: 6px;
+    background-color: transparent;
+    color: #8795a1;
+    font-size: 18px;
+    line-height: 1;
+    transition: all 0.2s ease;
+}
+
+.sidebar-logout:hover {
+    background-color: #fdf2f2;
+    color: #e05252;
 }
 
 
@@ -177,5 +203,9 @@
 
     .sidebar-item i {
         font-size: 20px;
+    }
+
+    .sidebar-item-logout {
+        display: flex;
     }
 }

@@ -1,7 +1,10 @@
 import './Home.css'
 import logoUnahur from '../../assets/logo-unahur.png'
+import { useAuth } from '../../context/useAuth'
 
 function Home() {
+    const { user } = useAuth()
+
     return (
         <section className="home-page">
             <header className="home-header">
@@ -12,6 +15,7 @@ function Home() {
 
             <div className="home-card">
                 <div className="home-welcome">
+                    <p className="home-hello">Hola, {user?.firstName}</p>
                     <h2 className="home-greeting">
                         ¡Bienvenido a tu plataforma de <br />
                         Telerehabilitación!
