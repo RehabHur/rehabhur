@@ -34,6 +34,13 @@
     margin-bottom: 40px;
 }
 
+.home-hello {
+    margin-bottom: 8px;
+    color: #697985;
+    font-size: 16px;
+    font-weight: 600;
+}
+
 .home-greeting {
     margin-bottom: 16px;
     color: #12998f;
