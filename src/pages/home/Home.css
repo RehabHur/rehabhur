@@ -188,7 +188,6 @@
     border-radius: 12px;
     padding: 30px 20px;
     text-align: center;
-    /* 👇 Agregamos esto para que el contenido quede bien centrado */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -196,12 +195,10 @@
     flex: 1;
 }
 .home-unahur-logo {
-    /* 👇 Esto hace que el logo crezca y ocupe el espacio necesario */
     width: 100%;
-    max-width: 160px; /* Evita que se haga gigante */
+    max-width: 160px;
     height: auto;
     margin-bottom: 20px;
-    /* Opcional: si el logo tiene fondo blanco y querés disimularlo */
     mix-blend-mode: multiply; 
 }
 .home-unahur-text {
