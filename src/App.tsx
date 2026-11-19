@@ -7,6 +7,7 @@ import PersonList from './pages/person/PersonList'
 import CreatePerson from './pages/person/CreatePerson'
 import Login from './pages/login/Login'
 import ProtectedRoute from './components/ProtectedRoute'
+import ProgramList from './pages/program/ProgramList'
 
 function App() {
     return (
@@ -24,6 +25,10 @@ function App() {
                 <Route path="/persons" element={<PersonList />} />
                 <Route path="/persons/new" element={<CreatePerson />} />
                 <Route path="/persons/:id/edit" element={<CreatePerson />} />
+
+
+                <Route path="/programs" element={<ProgramList />} />
+                
 
                 <Route path="*" element={<NotFound />} />
             </Route>
