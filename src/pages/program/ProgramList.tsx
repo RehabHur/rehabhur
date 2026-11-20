@@ -59,6 +59,7 @@ function ProgramList() {
                                         Creador: {program.createdBy}<br />
                                         Dificultad: {program.difficulty}
                                     </p>
+                                    <p className="program-date">{formattedDate}</p>
                                 </div>
                             </div>
                             <div className="program-actions">
@@ -70,7 +71,6 @@ function ProgramList() {
                                     <button type="button" className="library-btn library-btn-delete">Eliminar</button>
                                 </div>
                             </div>
-                            <div className="program-date">{formattedDate}</div>
                         </div>
                     )
                 })}
