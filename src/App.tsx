@@ -8,6 +8,7 @@ import CreatePerson from './pages/person/CreatePerson'
 import Login from './pages/login/Login'
 import ProtectedRoute from './components/ProtectedRoute'
 import ProgramList from './pages/program/ProgramList'
+import ProgramAssignments from './pages/program/ProgramAssignments'
 
 function App() {
     return (
@@ -28,7 +29,7 @@ function App() {
 
 
                 <Route path="/programs" element={<ProgramList />} />
-                
+                <Route path="/programs/:id/assign" element={<ProgramAssignments />} />
 
                 <Route path="*" element={<NotFound />} />
             </Route>
