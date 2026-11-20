@@ -46,3 +46,28 @@ La API debe tener CORS habilitado, ya que el front corre en otro puerto.
   `/api/v1/persons`.
 
 Los datos de la API son en memoria: se reinician al reiniciar el servidor.
+
+## Docker
+
+Antes de empezar:
+
+- Tener Docker Desktop abierto.
+- Tener la API corriendo en `http://localhost:3000`.
+
+Crear la imagen:
+
+```sh
+docker build --build-arg VITE_API_URL=http://localhost:3000/api/v1 -t rehabhur-front .
+```
+
+Correr el contenedor:
+
+```sh
+docker run -d --name rehabhur-front -p 8080:80 rehabhur-front
+```
+
+Con `docker ps` se puede ver si está corriendo. La aplicación queda en
+`http://localhost:8080`.
+
+
+
