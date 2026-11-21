@@ -2,9 +2,15 @@ import { BASE_URL } from '../api'
 import type { Exercise, ExerciseInput } from '../types/exercise'
 import { readJson } from './http'
 
+type PaginatedResponse<T> = {
+    data: T[]
+    meta?: { total: number, page: number, lastPage: number }
+}
+
 export async function getExercises(): Promise<Exercise[]> {
     const response = await fetch(`${BASE_URL}/exercises`)
-    return readJson<Exercise[]>(response, 'No se pudieron obtener los ejercicios')
+    const result = await readJson<PaginatedResponse<Exercise>>(response, 'No se pudieron obtener los ejercicios')
+    return result.data
 }
 
 export async function getExerciseById(id: number): Promise<Exercise> {
