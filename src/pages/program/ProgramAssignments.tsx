@@ -3,6 +3,7 @@ import { usePrograms } from "../../context/usePrograms"
 import { usePersons } from "../../context/usePersons"
 import { useState } from "react"
 import type { PatientAssignment } from "../../types/program"
+import './ProgramAssignments.css'
 
 function ProgramAssignments() {
     const navigate = useNavigate()

@@ -45,7 +45,6 @@ function ProgramList() {
 
             <div className="program-list">
                 {currentPrograms.map((program) => {
-                    // Sacamos las iniciales del creador (ej: "Carlos Méndez" -> "CM")
                     const initials = program.createdBy.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase()
                     const formattedDate = new Date(program.date).toLocaleDateString('es-AR', { day: 'numeric', month: 'short', year: 'numeric' }).replace('.', '')
 
