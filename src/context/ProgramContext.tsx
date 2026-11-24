@@ -7,6 +7,7 @@ import {
     deleteProgram as deleteProgramService 
 } from '../services/programService'
 import { ProgramContext } from './programContextValue'
+import { getErrorMessage } from '../services/http'
 
 export function ProgramProvider({ children }: { children: ReactNode }) {
     const [programs, setPrograms] = useState<Program[]>([])
@@ -18,8 +19,8 @@ export function ProgramProvider({ children }: { children: ReactNode }) {
             try {
                 const data = await getPrograms()
                 setPrograms(data)
-            } catch {
-                setError('No se pudieron cargar los programas.')
+            } catch (error) {
+                setError(getErrorMessage(error, 'No se pudieron cargar los programas.'))
             } finally {
                 setLoading(false)
             }

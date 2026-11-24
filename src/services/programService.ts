@@ -1,28 +1,14 @@
 import { BASE_URL } from "../api";
-import { programsMock } from "../mocks/programMock";
 import type { PatientAssignment, Program, ProgramExercise, ProgramInput } from "../types/program";
-import { readJson } from "./http";
-
-
-const USE_MOCKS = true // cuando este el backend listo, cambiar a false para usar la API
-
+import { apiFetch, readJson } from "./http";
 
 export async function getPrograms(): Promise<Program[]> {
-    if(USE_MOCKS) return programsMock
-
-    const response = await fetch(`${BASE_URL}/programs`)
+    const response = await apiFetch(`${BASE_URL}/programs`)
     return readJson<Program[]>(response, 'No se pudieron obtener los programas')
 }
 
 export async function assignPatientToProgram(programId: number, patient: PatientAssignment): Promise<Program> {
-    if(USE_MOCKS){
-        const program = programsMock.find(p => p.id === programId)
-        if(!program) throw new Error('Programa no encontrado')
-
-        return program
-    }
-
-    const response = await fetch(`${BASE_URL}/programs/${programId}/assign`, {
+    const response = await apiFetch(`${BASE_URL}/programs/${programId}/assign`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(patient),
@@ -32,36 +18,19 @@ export async function assignPatientToProgram(programId: number, patient: Patient
 }
 
 export async function removePatientFromProgram(programId: number, patientId: number): Promise<void> {
-    if (USE_MOCKS) {
-        console.log(`Simulando eliminación del paciente ${patientId} del programa ${programId}`)
-        return
-    }
-
-    const response = await fetch(`${BASE_URL}/programs/${programId}/patients/${patientId}`, {
+    const response = await apiFetch(`${BASE_URL}/programs/${programId}/patients/${patientId}`, {
         method: 'DELETE',
     })
     await readJson<void>(response, 'No se pudo desasignar al paciente')
 }
 
-let nextMockId = Math.max(0, ...programsMock.map((p) => p.id)) + 1
-
 export async function getProgramById(id: number): Promise<Program> {
-    if (USE_MOCKS) {
-        const program = programsMock.find((p) => p.id === id)
-        if (!program) throw new Error('Programa no encontrado')
-        return program
-    }
-
-    const response = await fetch(`${BASE_URL}/programs/${id.toString()}`)
+    const response = await apiFetch(`${BASE_URL}/programs/${id.toString()}`)
     return readJson<Program>(response, 'No se pudo obtener el programa')
 }
 
 export async function createProgram(program: ProgramInput, exercises: ProgramExercise[]): Promise<Program> {
-    if (USE_MOCKS) {
-        return { ...program, id: nextMockId++, exercises, assignedPatients: [] }
-    }
-
-    const response = await fetch(`${BASE_URL}/programs`, {
+    const response = await apiFetch(`${BASE_URL}/programs`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...program, exercises }),
@@ -72,11 +41,7 @@ export async function createProgram(program: ProgramInput, exercises: ProgramExe
 export async function updateProgram(program: Program): Promise<Program> {
     const { id, ...data } = program
 
-    if (USE_MOCKS) {
-        return program
-    }
-
-    const response = await fetch(`${BASE_URL}/programs/${id.toString()}`, {
+    const response = await apiFetch(`${BASE_URL}/programs/${id.toString()}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
@@ -85,11 +50,7 @@ export async function updateProgram(program: Program): Promise<Program> {
 }
 
 export async function deleteProgram(id: number): Promise<void> {
-    if (USE_MOCKS) {
-        return
-    }
-
-    const response = await fetch(`${BASE_URL}/programs/${id.toString()}`, {
+    const response = await apiFetch(`${BASE_URL}/programs/${id.toString()}`, {
         method: 'DELETE',
     })
     await readJson<void>(response, 'No se pudo eliminar el programa')

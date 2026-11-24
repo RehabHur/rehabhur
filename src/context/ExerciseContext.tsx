@@ -7,6 +7,7 @@ import {
     deleteExercise as deleteExerciseService,
 } from '../services/exerciseService'
 import { ExerciseContext } from './exerciseContextValue'
+import { getErrorMessage } from '../services/http'
 
 export function ExerciseProvider({ children }: { children: ReactNode }) {
     const [exercises, setExercises] = useState<Exercise[]>([])
@@ -18,8 +19,8 @@ export function ExerciseProvider({ children }: { children: ReactNode }) {
             try {
                 const data = await getExercises()
                 setExercises(data)
-            } catch {
-                setError('No se pudieron cargar los ejercicios.')
+            } catch (error) {
+                setError(getErrorMessage(error, 'No se pudieron cargar los ejercicios.'))
             } finally {
                 setLoading(false)
             }

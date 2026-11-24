@@ -3,13 +3,17 @@ import { usePrograms } from "../../context/usePrograms"
 import { usePersons } from "../../context/usePersons"
 import { useState } from "react"
 import type { PatientAssignment } from "../../types/program"
+import type { Person } from "../../types/person"
+import Alert from "react-bootstrap/Alert"
 import './ProgramAssignments.css'
 import { assignPatientToProgram, removePatientFromProgram } from "../../services/programService"
+import { getErrorMessage } from "../../services/http"
+import { Icon } from "../../components/Icon"
 
 function ProgramAssignments() {
     const navigate = useNavigate()
-    const { programs, setPrograms } = usePrograms()
-    const { persons } = usePersons()
+    const { programs, setPrograms, loading: programsLoading, error: programsError } = usePrograms()
+    const { persons, loading: personsLoading, error: personsError } = usePersons()
 
     const [searchPatient, setSearchPatient] = useState('')
     const [selectedPatient, setSelectedPatient] = useState<PatientAssignment | null>(null)
@@ -27,7 +31,7 @@ function ProgramAssignments() {
     )
 
 
-    const handleSelectPatient = (patient: any) => {
+    const handleSelectPatient = (patient: Person) => {
         setSelectedPatient({
             patientId: patient.id,
             patientName: `${patient.firstName} ${patient.lastName}`,
@@ -41,7 +45,7 @@ function ProgramAssignments() {
             setError ('Primero seleccioná un paciente de la izquierda.')
             return
         }
-        if(!selectedProgram) {
+        if(selectedProgram === null) {
             setError ('Seleccioná un programa de la derecha para asignar')
             return
         }
@@ -56,8 +60,6 @@ function ProgramAssignments() {
             setError(null)
             await assignPatientToProgram(selectedProgram, selectedPatient)
 
-            console.log('Asignado:', selectedPatient, 'al programa ID:', selectedProgram) // TODO borrar esta simulacion cuando tengamos el back
-
             setPrograms(prevPrograms => 
                 prevPrograms.map(prog => {
                     if (prog.id !== selectedProgram) return prog
@@ -70,8 +72,8 @@ function ProgramAssignments() {
             setSelectedProgram(null)
             setError(null)
             
-        } catch {
-            setError ('Hubo un error al asignar paciente')
+        } catch (error) {
+            setError(getErrorMessage(error, 'No se pudo asignar el paciente.'))
         }
     }
 
@@ -88,7 +90,7 @@ function ProgramAssignments() {
                 })
             )
         } catch (error) {
-            setError('No se pudo quitar al paciente.')
+            setError(getErrorMessage(error, 'No se pudo quitar al paciente.'))
         }
     }
 
@@ -101,15 +103,20 @@ function ProgramAssignments() {
                 </div>
             </header>
 
+            {(programsLoading || personsLoading) && <p className="library-state">Cargando datos...</p>}
+            {(programsError || personsError) && (
+                <Alert variant="danger">{programsError ?? personsError}</Alert>
+            )}
             {error && <p className="text-danger mb-3">{error}</p>}
 
+            {!programsLoading && !personsLoading && !programsError && !personsError && (
             <div className="assignments-grid">
                 <div className="assignment-card">
                     <h3 className="widget-title mb-3">Nueva asignación</h3>
                     <p className="text-muted small mb-2">Paciente</p>
                     
                     <div className="library-search mb-3">
-                        <span className="library-search-icon">⌕</span>
+                        <Icon name="search" className="library-search-icon" />
                         <input
                             type="text"
                             placeholder="Buscar por nombre, email o DNI..."
@@ -184,7 +191,9 @@ function ProgramAssignments() {
                                                     {ap.patientName[0]}
                                                 </div>
                                                 <span className="text-dark small">{ap.patientName}</span>
-                                                <button className="btn-remove-patient" title="Quitar" onClick={() => handleRemovePatient(program.id, ap.patientId)}>✕</button>
+                                                <button className="btn-remove-patient" title="Quitar" aria-label={`Quitar a ${ap.patientName}`} onClick={() => handleRemovePatient(program.id, ap.patientId)}>
+                                                    <Icon name="x-lg" />
+                                                </button>
                                             </div>
                                         ))}
                                     </div>
@@ -194,6 +203,7 @@ function ProgramAssignments() {
                     </div>
                 </div>
             </div>
+            )}
         </section>
     )
 }

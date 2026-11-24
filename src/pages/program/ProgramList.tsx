@@ -1,16 +1,19 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { usePrograms } from '../../context/usePrograms'
+import { getErrorMessage } from '../../services/http'
+import { Icon } from '../../components/Icon'
 import './ProgramList.css'
 
 const ITEMS_PER_PAGE = 6
 
 function ProgramList() {
-    const { programs, loading, error } = usePrograms()
+    const { programs, loading, error, removeProgram } = usePrograms()
     const navigate = useNavigate()
 
     const [search, setSearch] = useState('')
     const [currentPage, setCurrentPage] = useState(1)
+    const [actionError, setActionError] = useState<string | null>(null)
 
     const filteredPrograms = programs.filter(p =>
         p.name.toLowerCase().includes(search.toLowerCase())
@@ -19,6 +22,16 @@ function ProgramList() {
     const totalPages = Math.ceil(filteredPrograms.length / ITEMS_PER_PAGE)
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE
     const currentPrograms = filteredPrograms.slice(startIndex, startIndex + ITEMS_PER_PAGE)
+
+    const handleDelete = async (id: number) => {
+        if (!window.confirm('¿Seguro que querés eliminar este programa?')) return
+        try {
+            setActionError(null)
+            await removeProgram(id)
+        } catch (error) {
+            setActionError(getErrorMessage(error, 'No se pudo eliminar el programa.'))
+        }
+    }
 
     if (loading) return <section className="exercise-page"><p className="library-state">Cargando programas...</p></section>
     if (error) return <section className="exercise-page"><p className="library-state library-state-error">{error}</p></section>
@@ -34,7 +47,7 @@ function ProgramList() {
             </header>
 
             <div className="library-search mb-4">
-                <span className="library-search-icon" aria-hidden="true">⌕</span>
+                <Icon name="search" className="library-search-icon" />
                 <input
                     type="text"
                     placeholder="Buscar por nombre de programa"
@@ -42,6 +55,8 @@ function ProgramList() {
                     onChange={(e) => { setSearch(e.target.value); setCurrentPage(1); }}
                 />
             </div>
+
+            {actionError && <p className="library-state library-state-error">{actionError}</p>}
 
             <div className="program-list">
                 {currentPrograms.map((program) => {
@@ -67,7 +82,7 @@ function ProgramList() {
                                 </Link>
                                 <div className="program-btns">
                                     <button type="button" className="library-btn library-btn-edit" onClick={() => navigate(`/programs/${program.id}/edit`)}>Editar</button>
-                                    <button type="button" className="library-btn library-btn-delete">Eliminar</button>
+                                    <button type="button" className="library-btn library-btn-delete" onClick={() => handleDelete(program.id)}>Eliminar</button>
                                 </div>
                             </div>
                         </div>

@@ -5,6 +5,7 @@ import { useExercises } from '../../context/useExercises'
 import type { Exercise } from '../../types/exercise'
 import { getErrorMessage } from '../../services/http'
 import { getEmbedUrl, getThumbnailUrl } from '../../utils/youtube'
+import { Icon } from '../../components/Icon'
 import './ExerciseList.css'
 
 const ITEMS_PER_PAGE = 8
@@ -29,7 +30,8 @@ function ExerciseList() {
     })
 
     const totalPages = Math.ceil(filteredExercises.length / ITEMS_PER_PAGE)
-    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE
+    const displayPage = Math.min(currentPage, Math.max(totalPages, 1))
+    const startIndex = (displayPage - 1) * ITEMS_PER_PAGE
     const currentExercises = filteredExercises.slice(startIndex, startIndex + ITEMS_PER_PAGE)
 
     const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -65,7 +67,7 @@ function ExerciseList() {
             </header>
 
             <div className="library-search">
-                <span className="library-search-icon" aria-hidden="true">⌕</span>
+                <Icon name="search" className="library-search-icon" />
                 <input
                     type="text"
                     placeholder="Buscar por nombre, región, tipo o material..."
@@ -90,7 +92,7 @@ function ExerciseList() {
                                     {getThumbnailUrl(exercise.linkVideo) && (
                                         <img src={getThumbnailUrl(exercise.linkVideo)} alt={`Miniatura de ${exercise.name}`} loading="lazy" />
                                     )}
-                                    <span className="library-thumb-play" aria-hidden="true">▶</span>
+                                    <span className="library-thumb-play"><Icon name="play-fill" /></span>
                                 </div>
 
                                 <div className="library-item-info">
@@ -111,9 +113,9 @@ function ExerciseList() {
 
                     {totalPages > 1 && (
                         <div className="library-pagination">
-                            <button className="library-page-btn" disabled={currentPage === 1} onClick={() => setCurrentPage((prev) => prev - 1)}>← Anterior</button>
-                            <span className="library-page-info">Página {currentPage} de {totalPages}</span>
-                            <button className="library-page-btn" disabled={currentPage === totalPages} onClick={() => setCurrentPage((prev) => prev + 1)}>Siguiente →</button>
+                            <button className="library-page-btn" disabled={displayPage === 1} onClick={() => setCurrentPage((prev) => prev - 1)}>← Anterior</button>
+                            <span className="library-page-info">Página {displayPage} de {totalPages}</span>
+                            <button className="library-page-btn" disabled={displayPage === totalPages} onClick={() => setCurrentPage((prev) => prev + 1)}>Siguiente →</button>
                         </div>
                     )}
                 </div>

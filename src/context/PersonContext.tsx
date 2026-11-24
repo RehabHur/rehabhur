@@ -7,6 +7,7 @@ import {
     deletePerson as deletePersonService,
 } from '../services/personService'
 import { PersonContext } from './personContextValue'
+import { getErrorMessage } from '../services/http'
 
 export function PersonProvider({ children }: { children: ReactNode }) {
     const [persons, setPersons] = useState<Person[]>([])
@@ -18,8 +19,8 @@ export function PersonProvider({ children }: { children: ReactNode }) {
             try {
                 const data = await getPersons()
                 setPersons(data)
-            } catch {
-                setError('No se pudieron cargar las personas.')
+            } catch (error) {
+                setError(getErrorMessage(error, 'No se pudieron cargar las personas.'))
             } finally {
                 setLoading(false)
             }
