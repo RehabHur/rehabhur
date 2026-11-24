@@ -23,7 +23,7 @@ export function ProgramProvider({ children }: { children: ReactNode }) {
     }, [])
 
     return (
-        <ProgramContext.Provider value={{ programs, loading, error }}>
+        <ProgramContext.Provider value={{ programs, loading, error, setPrograms }}>
             {children}
         </ProgramContext.Provider>
     )

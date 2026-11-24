@@ -4,10 +4,11 @@ import { usePersons } from "../../context/usePersons"
 import { useState } from "react"
 import type { PatientAssignment } from "../../types/program"
 import './ProgramAssignments.css'
+import { assignPatientToProgram, removePatientFromProgram } from "../../services/programService"
 
 function ProgramAssignments() {
     const navigate = useNavigate()
-    const { programs } = usePrograms()
+    const { programs, setPrograms } = usePrograms()
     const { persons } = usePersons()
 
     const [searchPatient, setSearchPatient] = useState('')
@@ -45,13 +46,49 @@ function ProgramAssignments() {
             return
         }
 
+        const programToUpdate = programs.find(p => p.id === selectedProgram)
+        if (programToUpdate?.assignedPatients.some(p => p.patientId === selectedPatient.patientId)) {
+            setError('Este paciente ya está asignado a este programa.')
+            return
+        }
+
         try {
-            console.log('Asignado:', selectedPatient, 'al programa ID:', selectedProgram) // TODO simulacion hasta tener el back
+            setError(null)
+            await assignPatientToProgram(selectedProgram, selectedPatient)
+
+            console.log('Asignado:', selectedPatient, 'al programa ID:', selectedProgram) // TODO borrar esta simulacion cuando tengamos el back
+
+            setPrograms(prevPrograms => 
+                prevPrograms.map(prog => {
+                    if (prog.id !== selectedProgram) return prog
+                    return {...prog, assignedPatients: [...prog.assignedPatients, selectedPatient]}
+                })
+            )
 
             alert('Paciente asignado correctamente')
-            navigate('/programs')
+            setSelectedPatient(null)
+            setSelectedProgram(null)
+            setError(null)
+            
         } catch {
             setError ('Hubo un error al asignar paciente')
+        }
+    }
+
+    const handleRemovePatient = async (programId: number, patientId: number) => {
+        try {
+            await removePatientFromProgram(programId, patientId)
+            
+            setPrograms(prevPrograms => 
+                prevPrograms.map(prog => {
+                    if (prog.id === programId) {
+                        return {...prog, assignedPatients: prog.assignedPatients.filter(p => p.patientId !== patientId)}
+                    }
+                    return prog
+                })
+            )
+        } catch (error) {
+            setError('No se pudo quitar al paciente.')
         }
     }
 
@@ -125,6 +162,7 @@ function ProgramAssignments() {
                                         name="programSelect" 
                                         checked={selectedProgram === program.id}
                                         onChange={() => setSelectedProgram(program.id)}
+                                        //readOnly
                                         className="me-2"
                                     />
                                     <div className="flex-grow-1">
@@ -146,7 +184,7 @@ function ProgramAssignments() {
                                                     {ap.patientName[0]}
                                                 </div>
                                                 <span className="text-dark small">{ap.patientName}</span>
-                                                <button className="btn-remove-patient" title="Quitar">✕</button>
+                                                <button className="btn-remove-patient" title="Quitar" onClick={() => handleRemovePatient(program.id, ap.patientId)}>✕</button>
                                             </div>
                                         ))}
                                     </div>

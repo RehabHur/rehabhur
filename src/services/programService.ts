@@ -14,13 +14,11 @@ export async function getPrograms(): Promise<Program[]> {
     return readJson<Program[]>(response, 'No se pudieron obtener los programas')
 }
 
-// Función para asignar un paciente a un programa (para pantalla de asignar programas)
 export async function assignPatientToProgram(programId: number, patient: PatientAssignment): Promise<Program> {
     if(USE_MOCKS){
         const program = programsMock.find(p => p.id === programId)
         if(!program) throw new Error('Programa no encontrado')
 
-        program.assignedPatients.push(patient)
         return program
     }
 
@@ -31,4 +29,16 @@ export async function assignPatientToProgram(programId: number, patient: Patient
     })
 
     return readJson<Program>(response, 'No se pudo asignar el paciente')
+}
+
+export async function removePatientFromProgram(programId: number, patientId: number): Promise<void> {
+    if (USE_MOCKS) {
+        console.log(`Simulando eliminación del paciente ${patientId} del programa ${programId}`)
+        return
+    }
+
+    const response = await fetch(`${BASE_URL}/programs/${programId}/patients/${patientId}`, {
+        method: 'DELETE',
+    })
+    await readJson<void>(response, 'No se pudo desasignar al paciente')
 }

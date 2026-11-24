@@ -17,10 +17,7 @@ export const programsMock: Program[] = [
         createdBy: 'Helena Rodríguez',
         date: '2026-08-16',
         exercises: [],
-        assignedPatients: [
-            { patientId: 10, patientName: 'Pedro Rodríguez', dni: '32455881' },
-            { patientId: 11, patientName: 'Brissa Méndez', dni: '40632899' },
-        ],
+        assignedPatients: [],
     },
     {
         id: 3,
