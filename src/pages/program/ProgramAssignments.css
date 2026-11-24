@@ -1,0 +1,108 @@
+.assignments-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    align-items: start;
+}
+
+.assignment-card {
+    background-color: #ffffff;
+    border: 1px solid #e6eeee;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+}
+
+/* Lista de pacientes (Izquierda) */
+.patients-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.patient-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    background-color: #f7faf9;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: all 0.2s;
+}
+
+.patient-item:hover {
+    background-color: #effaf6;
+}
+
+.patient-item.selected {
+    background-color: #ecfdf5;
+    border-color: #a7e8c8;
+}
+
+.patient-info {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.patient-status {
+    font-size: 11px;
+    font-weight: 600;
+    color: #16845e;
+}
+
+/* Lista de programas (Derecha) */
+.programs-assign-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.program-assign-item {
+    border: 1px solid #e6eeee;
+    border-radius: 8px;
+    padding: 12px;
+    background-color: #ffffff;
+}
+
+.program-header-row {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.assigned-patients {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px dashed #e6eeee;
+}
+
+.assigned-patient-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 8px;
+    background-color: #f7faf9;
+    border-radius: 6px;
+    margin-bottom: 4px;
+}
+
+.btn-remove-patient {
+    background: none;
+    border: none;
+    color: #e05252;
+    margin-left: auto;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+/* --- RESPONSIVE PARA CELULARES --- */
+@media (max-width: 900px) {
+    .assignments-grid {
+        grid-template-columns: 1fr;
+    }
+}

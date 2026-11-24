@@ -1,0 +1,163 @@
+
+.program-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+
+.program-subtitle {
+    color: #697985;
+    font-size: 14px;
+    margin-top: -18px;
+    margin-bottom: 0;
+}
+
+.program-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.program-card {
+    background-color: #ffffff;
+    border: 1px solid #e6eeee;
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+    position: relative;
+}
+
+.program-card-content {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.program-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background-color: #f0f4f4;
+    color: #697985;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.program-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.program-name {
+    font-size: 15px;
+    font-weight: 700;
+    color: #142238;
+    margin: 0 0 4px 0;
+}
+
+.program-meta {
+    font-size: 12px;
+    color: #697985;
+    margin: 0;
+    line-height: 1.4;
+}
+
+.program-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+}
+
+.program-btn-assign {
+    background-color: #e2f5ec;
+    color: #16845e;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background-color 0.2s;
+}
+
+.program-btn-assign:hover {
+    background-color: #d1efe1;
+}
+
+.program-btns {
+    display: flex;
+    gap: 8px;
+}
+
+.program-date {
+    font-size: 12px;
+    color: #a3b3c2;
+    margin-left: 1px;
+    margin-top: 5px;
+    width: 100%;
+}
+
+/* --- RESPONSIVE PARA CELULARES Y TABLETS --- */
+@media (max-width: 768px) {
+    /* Header apilado */
+    .program-header {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    /* El botón de crear ocupa todo el ancho */
+    .program-header .library-new-btn {
+        width: 100%;
+        text-align: center;
+    }
+
+    /* La tarjeta se vuelve una columna */
+    .program-card {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 20px;
+        gap: 16px;
+    }
+
+    /* El contenido superior (Avatar + Info) */
+    .program-card-content {
+        width: 100%;
+        align-items: flex-start;
+    }
+
+    /* Las acciones ahora van abajo y se estiran */
+    .program-actions {
+        width: 100%;
+        align-items: flex-start;
+    }
+
+    /* El botón de asignar paciente ocupa todo el ancho en el celular */
+    .program-btn-assign {
+        display: block;
+        width: 100%;
+        text-align: center;
+        padding: 10px;
+        font-size: 13px;
+        margin-bottom: 8px;
+    }
+
+    /* Los botones de Editar/Eliminar se van a la derecha */
+    .program-btns {
+        width: 100%;
+        justify-content: flex-end;
+    }
+
+    /* Acomodamos la fecha para que no quede flotando raro en el celular */
+    .program-date {
+        position: static;
+        margin-top: 8px;
+        font-size: 12px;
+    }
+}

@@ -1,0 +1,189 @@
+/* Estilos para los avatares de la tabla */
+.person-name-cell {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.person-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: #e2f5ec;
+    color: #16845e;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.person-contact-cell {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    font-size: 14px;
+}
+
+/* Badges de Roles (colores basados en el Figma) */
+.badge-role {
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.badge-admin {
+    background-color: #e2f5ec;
+    color: #16845e;
+}
+
+.badge-docente {
+    background-color: #e3f2fd;
+    color: #1976d2;
+}
+
+.badge-estudiante {
+    background-color: #fff8e1;
+    color: #f57c00;
+}
+
+.badge-paciente {
+    background-color: #f3e5f5;
+    color: #7b1fa2;
+}
+
+/* Personalización de la tabla */
+.custom-table th {
+    color: #697985;
+    font-size: 13px;
+    font-weight: 600;
+    border-bottom: 1px solid #e6eeee;
+    padding-bottom: 12px;
+}
+
+.custom-table td {
+    padding: 16px 8px;
+    border-bottom: 1px solid #eff4f3;
+}
+
+/* Personalización de los Tabs de Bootstrap */
+.custom-tabs .nav-link {
+    color: #697985;
+    font-weight: 500;
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: 10px 16px;
+}
+
+.custom-tabs .nav-link:hover {
+    color: #16845e;
+}
+
+.custom-tabs .nav-link.active {
+    color: #16845e;
+    background: transparent;
+    border-bottom-color: #16845e;
+}
+
+/* --- RESPONSIVE: TABLA DE PERSONAS --- */
+@media (max-width: 768px) {
+    .person-name-cell {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+    }
+    .library-item-actions {
+        flex-direction: column;
+        gap: 4px;
+    }
+    .custom-table th, 
+    .custom-table td {
+        font-size: 12px;
+        padding: 10px 4px;
+    }
+}
+
+/* --- RESPONSIVE PARA CELULARES (DISEÑO DE TARJETAS) --- */
+@media (max-width: 768px) {
+    .library-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .library-new-btn {
+        width: 100%;
+        text-align: center;
+    }
+
+    /* Eliminamos el scroll horizontal */
+    .table-responsive {
+        overflow-x: hidden;
+    }
+
+    /* Ocultamos el encabezado de la tabla tradicional */
+    .custom-table thead {
+        display: none;
+    }
+
+    /* Convertimos la tabla en un contenedor flexible */
+    .custom-table, 
+    .custom-table tbody, 
+    .custom-table tr, 
+    .custom-table td {
+        display: block;
+        width: 100%;
+    }
+
+    /* Cada fila se convierte en una tarjeta blanca */
+    .custom-table tr {
+        background-color: #ffffff;
+        border: 1px solid #e6eeee;
+        border-radius: 12px;
+        margin-bottom: 16px;
+        padding: 16px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+    }
+
+    /* Acomodamos las celdas dentro de la tarjeta */
+    .custom-table td {
+        padding: 8px 0;
+        border-bottom: 1px solid #f7faf9;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .custom-table td:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+    }
+
+    /* Reacomodamos el nombre y avatar */
+    .person-name-cell {
+        flex-direction: row;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .person-avatar {
+        width: 36px;
+        height: 36px;
+        font-size: 13px;
+    }
+
+    /* Hacemos que la columna de contacto se vea vertical */
+    .person-contact-cell {
+        align-items: flex-end;
+        text-align: right;
+    }
+
+    /* Los botones de editar/eliminar abajo de todo, alineados a la derecha */
+    .library-item-actions {
+        width: 100%;
+        justify-content: flex-end;
+        gap: 8px;
+        margin-top: 8px;
+    }
+}

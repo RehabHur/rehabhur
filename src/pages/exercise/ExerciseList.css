@@ -1,0 +1,362 @@
+/* ---------- Header ---------- */
+.library-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 22px;
+}
+
+.library-title {
+    margin-bottom: 0;
+}
+
+.library-new-btn {
+    padding: 11px 20px;
+    border-radius: 8px;
+    background-color: #12998f;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+}
+
+.library-new-btn:hover {
+    background-color: #0e8279;
+    color: #ffffff;
+}
+
+/* ---------- Buscador ---------- */
+.library-search {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 18px;
+    margin-bottom: 26px;
+    border: 1px solid #dfe7e5;
+    border-radius: 10px;
+    background-color: #ffffff;
+}
+
+.library-search-icon {
+    color: #9aa8b3;
+    font-size: 16px;
+}
+
+.library-search input {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: #243547;
+    font-size: 14px;
+}
+
+.library-search input::placeholder {
+    color: #a3b3c2;
+}
+
+/* ---------- Grid de dos columnas ---------- */
+.library-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+    gap: 24px;
+    align-items: start;
+}
+
+/* ---------- Columna izquierda: lista ---------- */
+.library-list-card {
+    padding: 20px 22px 24px;
+    border: 1px solid #e6eeee;
+    border-radius: 16px;
+    background-color: #ffffff;
+    box-shadow: 0 3px 12px rgba(27, 76, 64, 0.04);
+}
+
+.library-counter {
+    margin: 0 0 14px;
+    color: #697985;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.library-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.library-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    background-color: #f7faf9;
+    cursor: pointer;
+    transition: background-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.library-item:hover {
+    background-color: #effaf6;
+}
+
+.library-item-selected {
+    background-color: #ecfdf5;
+    box-shadow: inset 0 0 0 1px #a7e8c8;
+}
+
+/* ---------- Miniatura del video ---------- */
+.library-thumb {
+    position: relative;
+    width: 72px;
+    height: 48px;
+    border-radius: 8px;
+    overflow: hidden;
+    flex-shrink: 0;
+    background-color: #17824f;
+}
+
+.library-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.library-thumb-play {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-size: 13px;
+    background-color: rgba(0, 0, 0, 0.35);
+    transition: background-color 0.15s ease;
+}
+
+.library-item:hover .library-thumb-play {
+    background-color: rgba(0, 0, 0, 0.55);
+}
+
+/* ---------- Info ---------- */
+.library-item-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.library-item-name {
+    margin: 0 0 3px;
+    color: #142238;
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.library-item-meta {
+    margin: 0;
+    color: #697985;
+    font-size: 12px;
+}
+
+/* ---------- Acciones ---------- */
+.library-item-actions {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.library-btn {
+    padding: 5px 12px;
+    border-radius: 6px;
+    border: 1px solid transparent;
+    background-color: transparent;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+.library-btn-edit {
+    color: #16845e;
+    border-color: #a7e8c8;
+}
+
+.library-btn-edit:hover {
+    background-color: #ecfdf5;
+}
+
+.library-btn-delete {
+    color: #e05252;
+    border-color: #f5c7c7;
+}
+
+.library-btn-delete:hover {
+    background-color: #fdf2f2;
+}
+
+/* ---------- Estado vacío / carga / error ---------- */
+.library-empty {
+    padding: 20px 14px;
+    color: #9aa8b3;
+    font-size: 13px;
+    text-align: center;
+}
+
+.library-state {
+    padding: 40px 20px;
+    color: #697985;
+    font-size: 14px;
+    text-align: center;
+}
+
+.library-state-error {
+    color: #e05252;
+}
+
+/* ---------- Columna derecha: preview ---------- */
+.library-preview-card {
+    padding: 20px 22px 24px;
+    border: 1px solid #e6eeee;
+    border-radius: 16px;
+    background-color: #ffffff;
+    box-shadow: 0 3px 12px rgba(27, 76, 64, 0.04);
+}
+
+.library-preview-title {
+    margin: 0 0 16px;
+    color: #142238;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.library-video-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    margin-bottom: 16px;
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: #142238;
+}
+
+.library-video-wrapper iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+}
+
+.library-preview-name {
+    margin: 0 0 14px;
+    color: #142238;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.library-open-youtube {
+    display: inline-block;
+    padding: 9px 16px;
+    border-radius: 6px;
+    background-color: #12998f;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+}
+
+.library-open-youtube:hover {
+    background-color: #0e8279;
+    color: #ffffff;
+}
+
+.library-preview-empty {
+    margin: 0;
+    color: #9aa8b3;
+    font-size: 14px;
+}
+
+/* ---------- Paginación ---------- */
+.library-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #e6eeee;
+}
+
+.library-page-btn {
+    padding: 8px 16px;
+    border: 1px solid #dfe7e5;
+    border-radius: 6px;
+    background-color: #ffffff;
+    color: #16845e;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.library-page-btn:hover:not(:disabled) {
+    background-color: #ecfdf5;
+    border-color: #a7e8c8;
+}
+
+.library-page-btn:disabled {
+    color: #a3b3c2;
+    cursor: not-allowed;
+    border-color: #e6eeee;
+}
+
+.library-page-info {
+    color: #697985;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+/* --- RESPONSIVE PARA CELULARES --- */
+@media (max-width: 768px) {
+    .library-grid {
+        grid-template-columns: 1fr; /* Una sola columna */
+    }
+
+    .library-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+    
+    .library-new-btn {
+        width: 100%;
+        text-align: center;
+    }
+
+    /* Apilamos los elementos de la tarjeta */
+    .library-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        position: relative;
+    }
+
+    /* Hacemos que los botones ocupen todo el ancho disponible abajo */
+    .library-item-actions {
+        width: 100%;
+        justify-content: flex-start; /* O flex-end si los querés a la derecha */
+        gap: 8px;
+    }
+
+    /* Achicamos un poquito el texto de los botones */
+    .library-btn {
+        padding: 6px 14px;
+        font-size: 12px;
+    }
+}

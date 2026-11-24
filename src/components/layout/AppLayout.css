@@ -1,0 +1,24 @@
+.app-layout {
+    width: 100%;
+    min-height: 100vh;
+    background-color: #e9faf5;
+}
+
+.app-content {
+    width: calc(100% - 240px);
+    min-height: 100vh;
+    margin-left: 240px;
+    padding: 42px 48px;
+    background-color: #e9faf5;
+    transition: all 0.3s ease;
+}
+
+
+@media (max-width: 1024px) {
+    .app-content {
+        width: 100%;
+        margin-left: 0; /* Ocupa todo el ancho */
+        padding: 24px 20px; 
+        padding-bottom: 90px; /* Espacio para que la barra inferior no tape el contenido */
+    }
+}
