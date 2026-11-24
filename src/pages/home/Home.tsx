@@ -6,20 +6,20 @@ import { usePersons } from '../../context/usePersons'
 import { usePrograms } from '../../context/usePrograms'
 import { Link } from 'react-router-dom'
 import logoUnahur from '../../assets/logo-unahur.png'
+import { Icon } from '../../components/Icon'
 
 function Home() {
     const { user } = useAuth()
-    const { exercises } = useExercises()
-    const { persons } = usePersons()
-    const { programs } = usePrograms()
+    const { exercises, loading: exercisesLoading, error: exercisesError } = useExercises()
+    const { persons, loading: personsLoading, error: personsError } = usePersons()
+    const { programs, loading: programsLoading, error: programsError } = usePrograms()
 
-    const totalPersonas = persons.length
+    const displayedExercises = exercises.slice(0, 2)
+    const displayedPersons = persons.slice(0, 2)
     const totalPacientes = persons.filter(p => p.role === 'paciente').length
-    const totalEjercicios = exercises.length
-    const totalProgramas = programs.length
 
-    const recentExercises = [...exercises].reverse().slice(0, 2)
-    const recentPersons = [...persons].reverse().slice(0, 2)
+    const countLabel = (loading: boolean, error: string | null, count: number) =>
+        loading ? '…' : error ? '—' : count
 
 
     return (
@@ -27,7 +27,7 @@ function Home() {
             <header className="home-header">
                 <div>
                     <h1 className="exercise-title home-title">
-                        Hola, {user?.firstName} éste es tu panel de general
+                        Hola, {user?.firstName}. Este es tu panel general
                     </h1>
                     <p className="home-subtitle">Estado general de la plataforma de telerehabilitación</p>
                 </div>
@@ -37,45 +37,45 @@ function Home() {
                 <div className="kpi-card">
                     <div>
                         <p className="kpi-title">Personas registradas</p>
-                        <h2 className="kpi-value">{totalPersonas}</h2>
-                        <p className="kpi-sub">Total en el sistema</p>
+                        <h2 className="kpi-value">{countLabel(personsLoading, personsError, persons.length)}</h2>
+                        <p className="kpi-sub">{personsError ? 'No se pudo cargar' : 'Total en el sistema'}</p>
                     </div>
                     <div className="kpi-icon kpi-green">
-                        <i className="bi bi-people"></i>
+                        <Icon name="people" />
                     </div>
                 </div>
 
                 <div className="kpi-card">
                     <div>
-                        <p className="kpi-title">Pacientes activos</p>
-                        <h2 className="kpi-value">{totalPacientes}</h2>
-                        <p className="kpi-sub">En tratamiento</p>
+                        <p className="kpi-title">Pacientes registrados</p>
+                        <h2 className="kpi-value">{countLabel(personsLoading, personsError, totalPacientes)}</h2>
+                        <p className="kpi-sub">{personsError ? 'No se pudo cargar' : 'Con rol paciente'}</p>
                     </div>
                     <div className="kpi-icon kpi-teal">
-                        <i className="bi bi-heart-pulse"></i>
+                        <Icon name="heart-pulse" />
                     </div>
                 </div>
 
 
                 <div className="kpi-card">
                     <div>
-                        <p className="kpi-title">Programas activos</p>
-                        <h2 className="kpi-value">{totalProgramas}</h2>
-                        <p className="kpi-sub">2 falta asignar</p>
+                        <p className="kpi-title">Programas disponibles</p>
+                        <h2 className="kpi-value">{countLabel(programsLoading, programsError, programs.length)}</h2>
+                        <p className="kpi-sub">{programsError ? 'No disponible en la API' : 'Programas registrados'}</p>
                     </div>
                     <div className="kpi-icon kpi-yellow">
-                        <i className="bi bi-journal-check"></i>
+                        <Icon name="journal-check" />
                     </div>
                 </div>
 
                 <div className="kpi-card">
                     <div>
                         <p className="kpi-title">Ejercicios disponibles</p>
-                        <h2 className="kpi-value">{totalEjercicios}</h2>
-                        <p className="kpi-sub">En la biblioteca</p>
+                        <h2 className="kpi-value">{countLabel(exercisesLoading, exercisesError, exercises.length)}</h2>
+                        <p className="kpi-sub">{exercisesError ? 'No se pudo cargar' : 'En la biblioteca'}</p>
                     </div>
                     <div className="kpi-icon kpi-blue">
-                        <i className="bi bi-activity"></i>
+                        <Icon name="activity" />
                     </div>
                 </div>
             </div>
@@ -86,7 +86,7 @@ function Home() {
                 <div className="home-left-col">
                     <div className="home-widget">
                         <div className="widget-header">
-                            <h3 className="widget-title">Programas vigentes</h3>
+                            <h3 className="widget-title">Programas disponibles</h3>
                             <Link to="/programs" className="widget-link">Ver todos →</Link>
                         </div>
                         <div className="table-responsive">
@@ -109,6 +109,12 @@ function Home() {
                                             <td>{program.difficulty}</td>
                                         </tr>
                                     ))}
+                                    {!programsLoading && !programsError && programs.length === 0 && (
+                                        <tr><td colSpan={4} className="text-center text-muted py-3">No hay programas registrados.</td></tr>
+                                    )}
+                                    {programsError && (
+                                        <tr><td colSpan={4} className="text-center text-muted py-3">La API actual no expone el módulo de programas.</td></tr>
+                                    )}
                                 </tbody>
                             </table>
                         </div>
@@ -116,34 +122,31 @@ function Home() {
 
                     <div className="home-widget mt-4">
                         <div className="widget-header">
-                            <h3 className="widget-title">Actividad reciente</h3>
-                            <span className="widget-sub">Últimas 24 horas</span>
+                            <h3 className="widget-title">Registros disponibles</h3>
                         </div>
                         <div className="activity-list">
-                            {recentPersons.map((person, index) => (
+                            {displayedPersons.map((person) => (
                                     <div className="activity-item" key={`person-${person.id}`}>
                                         <span className="activity-dot bg-primary"></span>
                                             <div>
-                                                <p className="activity-title">Nueva persona</p>
+                                                <p className="activity-title">Persona registrada</p>
                                                 <p className="activity-desc">Se registró a {person.firstName} {person.lastName} como {person.role}</p>
                                             </div>
-                                        <span className="activity-time">Hace {index === 0 ? '1 h' : '2 h'}</span>
                                     </div>
                                 ))}
 
-                            {recentExercises.map((exercise, index) => (
+                            {displayedExercises.map((exercise) => (
                                     <div className="activity-item" key={`exercise-${exercise.id}`}>
                                         <span className="activity-dot bg-primary"></span>
                                             <div>
-                                                <p className="activity-title">Ejercicio agregado</p>
-                                                <p className="activity-desc">Se agregó "{exercise.name}" a la biblioteca</p>
+                                                <p className="activity-title">Ejercicio disponible</p>
+                                                <p className="activity-desc">"{exercise.name}" está en la biblioteca</p>
                                             </div>
-                                        <span className="activity-time">Hace {index === 0 ? '3 h' : '4 h'}</span>
                                     </div>
                                 ))}
                                 
-                            {recentPersons.length === 0 && recentExercises.length === 0 && (
-                                    <p className="text-muted small text-center py-3">No hay actividad reciente.</p>
+                            {displayedPersons.length === 0 && displayedExercises.length === 0 && (
+                                    <p className="text-muted small text-center py-3">No hay registros para mostrar.</p>
                                 )}
                         </div>
                     </div>
@@ -153,33 +156,15 @@ function Home() {
                 <div className="home-right-col">
                     <div className="home-widget">
                         <div className="widget-header">
-                            <h3 className="widget-title">Progreso de programas</h3>
-                            <span className="widget-sub">Total 63</span>
+                            <h3 className="widget-title">Estado de programas</h3>
                         </div>
-                        
-                        <div className="progress-item">
-                            <div className="d-flex justify-content-between mb-1">
-                                <span className="text-muted fw-semibold">Activos</span>
-                                <span className="fw-bold text-dark">34</span>
-                            </div>
-                            <div className="progress-bar-bg"><div className="progress-bar-fill bg-success" style={{ width: '70%' }}></div></div>
-                        </div>
-                        
-                        <div className="progress-item mt-3">
-                            <div className="d-flex justify-content-between mb-1">
-                                <span className="text-muted fw-semibold">Pendientes</span>
-                                <span className="fw-bold text-dark">8</span>
-                            </div>
-                            <div className="progress-bar-bg"><div className="progress-bar-fill bg-warning" style={{ width: '20%' }}></div></div>
-                        </div>
-
-                        <div className="progress-item mt-3">
-                            <div className="d-flex justify-content-between mb-1">
-                                <span className="text-muted fw-semibold">Finalizados</span>
-                                <span className="fw-bold text-dark">21</span>
-                            </div>
-                            <div className="progress-bar-bg"><div className="progress-bar-fill bg-info" style={{ width: '40%' }}></div></div>
-                        </div>
+                        <p className="text-muted mb-0">
+                            {programsError
+                                ? 'La API actual no expone el módulo de programas.'
+                                : programsLoading
+                                    ? 'Cargando programas...'
+                                    : `${programs.length} programas registrados.`}
+                        </p>
                     </div>
 
                     <div className="home-welcome-card mt-4">

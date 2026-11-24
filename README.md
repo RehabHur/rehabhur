@@ -27,7 +27,8 @@ define, se usa `http://localhost:3000/api/v1`.
 cp .env.example .env
 ```
 
-La API debe tener CORS habilitado, ya que el front corre en otro puerto.
+La API debe permitir el origen del frontend en CORS y aceptar credenciales para
+que funcione la renovación de sesión.
 
 ## Scripts
 
@@ -38,14 +39,42 @@ La API debe tener CORS habilitado, ya que el front corre en otro puerto.
 
 ## Módulos conectados
 
+- **Autenticación**: inicio de sesión con `/api/v1/auth/signin`; el access token
+  se envía en las solicitudes y se renueva con la cookie del backend.
 - **Ejercicios**: listado, búsqueda, creación, edición y eliminación contra
   `/api/v1/exercises`.
 - **Opciones del formulario**: regiones corporales, tipos de movimiento y
   materiales desde `/api/v1/options`.
 - **Personas**: listado por rol, creación, edición y eliminación contra
   `/api/v1/persons`.
+- El frontend carga todos los resultados de personas y ejercicios usando la
+  paginación de la API.
+- **Programas**: la API actual no publica `/api/v1/programs`; el frontend ya no
+  usa datos de demostración y muestra el error del backend hasta que exista ese
+  módulo.
 
-Los datos de la API son en memoria: se reinician al reiniciar el servidor.
+La persistencia depende de la configuración de base de datos del backend.
+
+## Despliegue en Vercel
+
+El archivo `vercel.json` configura el build de Vite y redirige las rutas del
+frontend a `index.html`, necesario para que funcionen rutas como `/persons` al
+recargar la página.
+
+1. Importá el repositorio en Vercel. El proyecto detecta Vite; el build usa
+   `npm run build` y publica `dist`.
+2. En **Settings → Environment Variables**, definí `VITE_API_URL` para
+   Production y Preview con la URL pública del backend, incluyendo `/api/v1`
+   (por ejemplo, `https://api.ejemplo.com/api/v1`).
+3. En el backend, agregá los orígenes exactos que uses (producción y previews)
+   a `CORS_ORIGIN`, separados por comas, y habilitá credenciales. No uses `*`
+   con credenciales. Para cookies de sesión entre dominios distintos,
+   configurá `COOKIE_SAME_SITE=none` y `COOKIE_SECURE=true`.
+4. Volvé a desplegar después de cambiar `VITE_API_URL`; Vite incorpora ese valor
+   durante el build. No uses `localhost` en las variables de Vercel.
+
+El entorno local sigue usando `http://localhost:3000/api/v1` como valor
+predeterminado.
 
 ## Docker
 

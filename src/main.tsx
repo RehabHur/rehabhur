@@ -6,9 +6,8 @@ import { AuthProvider } from './context/AuthContext'
 import { ExerciseProvider } from './context/ExerciseContext'
 import { PersonProvider } from './context/PersonContext'
 import { ProgramProvider } from './context/ProgramContext'
-import './index.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import 'bootstrap-icons/font/bootstrap-icons.css'
+import './index.css'
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>

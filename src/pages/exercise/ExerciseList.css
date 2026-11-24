@@ -39,6 +39,11 @@
 }
 
 .library-search-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 16px;
+    line-height: 1;
     color: #9aa8b3;
     font-size: 16px;
 }

@@ -10,7 +10,7 @@ import Alert from 'react-bootstrap/Alert'
 import type { Person, Role } from '../../types/person'
 import { usePersons } from '../../context/usePersons'
 import { getErrorMessage } from '../../services/http'
-// import './CreatePerson.css'
+import '../exercise/CreateExercise.css'
 
 const initialPerson: Person = {
     id: 0,
@@ -34,6 +34,7 @@ function PersonForm({ isEditing, existingPerson }: PersonFormProps) {
     const [person, setPerson] = useState<Person>(existingPerson ?? initialPerson)
     const [formValidated, setFormValidated] = useState(false)
     const [submitError, setSubmitError] = useState<string | null>(null)
+    const [submitting, setSubmitting] = useState(false)
 
     const handleSubmit = async (event: SubmitEvent<HTMLFormElement>) => {
         event.preventDefault()
@@ -47,6 +48,7 @@ function PersonForm({ isEditing, existingPerson }: PersonFormProps) {
 
         try {
             setSubmitError(null)
+            setSubmitting(true)
 
             if (isEditing && existingPerson) {
                 await updatePerson({ ...person, id: existingPerson.id })
@@ -65,6 +67,8 @@ function PersonForm({ isEditing, existingPerson }: PersonFormProps) {
             navigate(`/persons?role=${person.role}`)
         } catch (error) {
             setSubmitError(getErrorMessage(error, 'No se pudo guardar la persona.'))
+        } finally {
+            setSubmitting(false)
         }
     }
 
@@ -180,8 +184,8 @@ function PersonForm({ isEditing, existingPerson }: PersonFormProps) {
                             <Button type="button" variant="outline-secondary" onClick={handleCancel}>
                                 Cancelar
                             </Button>
-                            <Button type="submit" className="exercise-save-button">
-                                {isEditing ? 'Guardar cambios' : 'Guardar'}
+                            <Button type="submit" className="exercise-save-button" disabled={submitting}>
+                                {submitting ? 'Guardando...' : isEditing ? 'Guardar cambios' : 'Guardar'}
                             </Button>
                         </div>
                     </Form>

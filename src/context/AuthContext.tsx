@@ -1,29 +1,28 @@
-import { useState, type ReactNode } from 'react'
+import { useEffect, useState, type ReactNode } from 'react'
 import type { LoginCredentials, LoginResponse } from '../types/auth'
-import { login as loginService } from '../services/authService'
+import { login as loginService, logout as logoutService } from '../services/authService'
+import { clearStoredSession, getStoredSession, saveSession } from '../services/session'
 import { AuthContext } from './authContextValue'
 
-const SESSION_KEY = 'rehabhur-session'
-
-function getSavedSession(): LoginResponse | null {
-    const saved = localStorage.getItem(SESSION_KEY) ?? sessionStorage.getItem(SESSION_KEY)
-    return saved ? JSON.parse(saved) : null
-}
-
 export function AuthProvider({ children }: { children: ReactNode }) {
-    const [session, setSession] = useState<LoginResponse | null>(getSavedSession)
+    const [session, setSession] = useState<LoginResponse | null>(getStoredSession)
+
+    useEffect(() => {
+        const handleUnauthorized = () => setSession(null)
+        window.addEventListener('rehabhur:unauthorized', handleUnauthorized)
+        return () => window.removeEventListener('rehabhur:unauthorized', handleUnauthorized)
+    }, [])
 
     const login = async (credentials: LoginCredentials, remember: boolean) => {
         const data = await loginService(credentials)
 
-        const storage = remember ? localStorage : sessionStorage
-        storage.setItem(SESSION_KEY, JSON.stringify(data))
+        saveSession(data, remember)
         setSession(data)
     }
 
-    const logout = () => {
-        localStorage.removeItem(SESSION_KEY)
-        sessionStorage.removeItem(SESSION_KEY)
+    const logout = async () => {
+        await logoutService()
+        clearStoredSession()
         setSession(null)
     }
 

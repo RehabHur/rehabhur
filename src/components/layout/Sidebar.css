@@ -72,7 +72,7 @@
     transition: all 0.2s ease;
 }
 
-.sidebar-item i {
+.sidebar-item .app-icon {
     font-size: 18px;
     color: #8795a1;
     transition: color 0.2s ease;
@@ -83,7 +83,7 @@
     color: #12998f;
 }
 
-.sidebar-item:hover i {
+.sidebar-item:hover .app-icon {
     color: #12998f;
 }
 
@@ -93,7 +93,7 @@
     font-weight: 600;
 }
 
-.sidebar-item-active i {
+.sidebar-item-active .app-icon {
     color: #12998f;
 }
 
@@ -201,7 +201,7 @@
         padding: 8px;
     }
 
-    .sidebar-item i {
+    .sidebar-item .app-icon {
         font-size: 20px;
     }
 

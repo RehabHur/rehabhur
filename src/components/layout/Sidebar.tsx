@@ -1,7 +1,10 @@
 
+import { useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import { useAuth } from '../../context/useAuth'
+import { getErrorMessage } from '../../services/http'
 import type { Role } from '../../types/person'
+import { Icon } from '../Icon'
 import './Sidebar.css'
 
 const ROLE_LABELS: Record<Role, string> = {
@@ -13,6 +16,16 @@ const ROLE_LABELS: Record<Role, string> = {
 
 function Sidebar() {
     const { user, logout } = useAuth()
+    const [logoutError, setLogoutError] = useState<string | null>(null)
+
+    const handleLogout = async () => {
+        try {
+            setLogoutError(null)
+            await logout()
+        } catch (error) {
+            setLogoutError(getErrorMessage(error, 'No se pudo cerrar la sesión.'))
+        }
+    }
 
     return (
         <aside className="sidebar">
@@ -24,7 +37,7 @@ function Sidebar() {
 
                 <nav className="sidebar-navigation">
                     <NavLink to="/" className="sidebar-item" end>
-                        <i className="bi bi-house-door"></i>
+                        <Icon name="house-door" />
                         Inicio
                     </NavLink>
 
@@ -34,7 +47,7 @@ function Sidebar() {
                             'sidebar-item' + (isActive ? ' sidebar-item-active' : '')
                         }
                     >
-                        <i className="bi bi-journal-medical"></i>
+                        <Icon name="journal-medical" />
                         Ejercicios
                     </NavLink>
 
@@ -44,7 +57,7 @@ function Sidebar() {
                             'sidebar-item' + (isActive ? ' sidebar-item-active' : '')
                         }
                     >
-                        <i className="bi bi-calendar2-check"></i>
+                        <Icon name="calendar2-check" />
                         Programas
                     </NavLink>
 
@@ -54,17 +67,19 @@ function Sidebar() {
                             'sidebar-item' + (isActive ? ' sidebar-item-active' : '')
                         }
                     >
-                        <i className="bi bi-people"></i>
+                        <Icon name="people" />
                         Personas
                     </NavLink>
 
                     <button type="button" className="sidebar-item">
-                        <i className="bi bi-gear"></i>
+                        <Icon name="gear" />
                         Configuración
                     </button>
 
-                    <button type="button" className="sidebar-item sidebar-item-logout" onClick={logout}>
-                        <i className="bi bi-box-arrow-right"></i>
+                    {logoutError && <p className="text-danger small px-3" role="alert">{logoutError}</p>}
+
+                    <button type="button" className="sidebar-item sidebar-item-logout" onClick={handleLogout}>
+                        <Icon name="box-arrow-right" />
                         Salir
                     </button>
                 </nav>
@@ -73,7 +88,7 @@ function Sidebar() {
             {user && (
                 <div className="sidebar-user">
                     <div className="sidebar-avatar">
-                        {user.firstName[0]}{user.lastName[0]}
+                        {user.firstName.charAt(0)}{user.lastName.charAt(0)}
                     </div>
                     <div className="sidebar-user-info">
                         <p className="sidebar-user-name">{user.firstName} {user.lastName}</p>
@@ -82,11 +97,11 @@ function Sidebar() {
                     <button
                         type="button"
                         className="sidebar-logout"
-                        onClick={logout}
+                        onClick={handleLogout}
                         title="Cerrar sesión"
                         aria-label="Cerrar sesión"
                     >
-                        <i className="bi bi-box-arrow-right"></i>
+                        <Icon name="box-arrow-right" />
                     </button>
                 </div>
             )}
