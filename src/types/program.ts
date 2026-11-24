@@ -23,3 +23,5 @@ export type Program = {
     exercises: ProgramExercise[]
     assignedPatients: PatientAssignment[]
 }
+
+export type ProgramInput = Omit<Program, 'id' | 'exercises' | 'assignedPatients'>
