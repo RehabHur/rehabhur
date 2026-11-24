@@ -1,20 +1,13 @@
 import { BASE_URL } from '../api'
 import type { Person, PersonInput } from '../types/person'
-import { readJson } from './http'
-
-type PaginatedResponse<T> = {
-    data: T[]
-    meta?: { total: number, page: number, lastPage: number }
-}
+import { apiFetch, fetchAllPages, readJson } from './http'
 
 export async function getPersons(): Promise<Person[]> {
-    const response = await fetch(`${BASE_URL}/persons`)
-    const result = await readJson<PaginatedResponse<Person>>(response, 'No se pudieron obtener las personas')
-    return result.data
+    return fetchAllPages<Person>(`${BASE_URL}/persons`, 'No se pudieron obtener las personas')
 }
 
 export async function createPerson(person: PersonInput): Promise<Person> {
-    const response = await fetch(`${BASE_URL}/persons`, {
+    const response = await apiFetch(`${BASE_URL}/persons`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(person),
@@ -23,7 +16,7 @@ export async function createPerson(person: PersonInput): Promise<Person> {
 }
 
 export async function updatePerson(person: Person): Promise<Person> {
-    const response = await fetch(`${BASE_URL}/persons/${person.id.toString()}`, {
+    const response = await apiFetch(`${BASE_URL}/persons/${person.id.toString()}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -39,7 +32,7 @@ export async function updatePerson(person: Person): Promise<Person> {
 }
 
 export async function deletePerson(id: number): Promise<void> {
-    const response = await fetch(`${BASE_URL}/persons/${id.toString()}`, {
+    const response = await apiFetch(`${BASE_URL}/persons/${id.toString()}`, {
         method: 'DELETE',
     })
     await readJson<void>(response, 'No se pudo eliminar la persona')

@@ -6,6 +6,8 @@ import Spinner from 'react-bootstrap/Spinner'
 
 import type { LoginCredentials } from '../../types/auth'
 import { useAuth } from '../../context/useAuth'
+import { getErrorMessage } from '../../services/http'
+import { Icon } from '../../components/Icon'
 import loginImage from '../../assets/login-imagen.png'
 import './Login.css'
 
@@ -43,8 +45,8 @@ function Login() {
         try {
             await login(credentials, remember)
             navigate('/', { replace: true })
-        } catch {
-            setError('Correo o contraseña incorrectos.')
+        } catch (error) {
+            setError(getErrorMessage(error, 'No se pudo iniciar sesión.'))
             setSubmitting(false)
         }
     }
@@ -67,7 +69,7 @@ function Login() {
                         <Form.Group className="mb-3" controlId="loginEmail">
                             <Form.Label className="login-label">Correo electrónico</Form.Label>
                             <div className="login-input">
-                                <i className="bi bi-envelope login-input-icon" aria-hidden="true"></i>
+                                <Icon name="envelope" className="login-input-icon" />
                                 <Form.Control
                                     type="email"
                                     placeholder="ejemplo@rehabhur.com"
@@ -85,7 +87,7 @@ function Login() {
                         <Form.Group className="mb-3" controlId="loginPassword">
                             <Form.Label className="login-label">Contraseña</Form.Label>
                             <div className="login-input">
-                                <i className="bi bi-lock login-input-icon" aria-hidden="true"></i>
+                                <Icon name="lock" className="login-input-icon" />
                                 <Form.Control
                                     type={showPassword ? 'text' : 'password'}
                                     placeholder="••••••••"
@@ -100,7 +102,7 @@ function Login() {
                                     onClick={() => setShowPassword(!showPassword)}
                                     aria-label={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
                                 >
-                                    <i className={showPassword ? 'bi bi-eye-slash' : 'bi bi-eye'}></i>
+                                    <Icon name={showPassword ? 'eye-slash' : 'eye'} />
                                 </button>
                                 <Form.Control.Feedback type="invalid">
                                     Ingresá tu contraseña.

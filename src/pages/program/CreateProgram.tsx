@@ -15,6 +15,7 @@ import { usePrograms } from '../../context/usePrograms'
 import { getErrorMessage } from '../../services/http'
 import { formatDate, getTodayIso } from '../../utils/date'
 import { getThumbnailUrl } from '../../utils/youtube'
+import { Icon } from '../../components/Icon'
 import '../exercise/CreateExercise.css'
 import '../exercise/ExerciseList.css'
 import './CreateProgram.css'
@@ -303,7 +304,7 @@ function ProgramForm({ isEditing, existingProgram }: ProgramFormProps) {
                                             <li key={item.id} className="program-item">
                                                 <div className="library-thumb">
                                                     {thumbnail && <img src={thumbnail} alt="" loading="lazy" />}
-                                                    <span className="library-thumb-play" aria-hidden="true">▶</span>
+                                                    <span className="library-thumb-play"><Icon name="play-fill" /></span>
                                                 </div>
                                                 <div className="program-item-info">
                                                     <p className="program-item-name">{item.name}</p>
