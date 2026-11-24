@@ -3,6 +3,7 @@ import './Home.css'
 import { useAuth } from '../../context/useAuth'
 import { useExercises } from '../../context/useExercises'
 import { usePersons } from '../../context/usePersons'
+import { usePrograms } from '../../context/usePrograms'
 import { Link } from 'react-router-dom'
 import logoUnahur from '../../assets/logo-unahur.png'
 
@@ -10,10 +11,15 @@ function Home() {
     const { user } = useAuth()
     const { exercises } = useExercises()
     const { persons } = usePersons()
+    const { programs } = usePrograms()
 
     const totalPersonas = persons.length
     const totalPacientes = persons.filter(p => p.role === 'paciente').length
     const totalEjercicios = exercises.length
+    const totalProgramas = programs.length
+
+    const recentExercises = [...exercises].reverse().slice(0, 2)
+    const recentPersons = [...persons].reverse().slice(0, 2)
 
 
     return (
@@ -54,7 +60,7 @@ function Home() {
                 <div className="kpi-card">
                     <div>
                         <p className="kpi-title">Programas activos</p>
-                        <h2 className="kpi-value">34</h2>
+                        <h2 className="kpi-value">{totalProgramas}</h2>
                         <p className="kpi-sub">2 falta asignar</p>
                     </div>
                     <div className="kpi-icon kpi-yellow">
@@ -94,30 +100,15 @@ function Home() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td className="fw-semibold text-dark">Rehabilitación lumbar inicial</td>
-                                        <td>Helena Rodríguez</td>
-                                        <td>Carlos Méndez</td>
-                                        <td>Moderado</td>
-                                    </tr>
-                                    <tr>
-                                        <td className="fw-semibold text-dark">Movilidad de hombro</td>
-                                        <td>Lucía Fernández</td>
-                                        <td className="text-warning fw-semibold">Falta asignar</td>
-                                        <td>Intenso</td>
-                                    </tr>
-                                    <tr>
-                                        <td className="fw-semibold text-dark">Fortalecimiento de rodilla</td>
-                                        <td>Tomás Acosta</td>
-                                        <td>Juan Pérez</td>
-                                        <td>Intenso</td>
-                                    </tr>
-                                    <tr>
-                                        <td className="fw-semibold text-dark">Equilibrio y marcha</td>
-                                        <td>Sofía Benitez</td>
-                                        <td className="text-warning fw-semibold">Falta asignar</td>
-                                        <td>Liviano</td>
-                                    </tr>
+                                    {programs.slice(0, 4).map((program) => (
+                                        <tr key={program.id}>
+                                            <td className="fw-semibold text-dark">{program.name}</td>
+                                            <td>{program.createdBy}</td>
+                                            <td className={program.assignedPatients.length === 0 ? "text-warning fw-semibold" : ""}>
+                                                {program.assignedPatients.length === 0 ? 'Falta asignar' : program.assignedPatients[0].patientName}</td>
+                                            <td>{program.difficulty}</td>
+                                        </tr>
+                                    ))}
                                 </tbody>
                             </table>
                         </div>
@@ -129,30 +120,31 @@ function Home() {
                             <span className="widget-sub">Últimas 24 horas</span>
                         </div>
                         <div className="activity-list">
-                            <div className="activity-item">
-                                <span className="activity-dot bg-success"></span>
-                                <div>
-                                    <p className="activity-title">Programa nuevo</p>
-                                    <p className="activity-desc">Se creó el programa "Rehabilitación lumbar inicial"</p>
-                                </div>
-                                <span className="activity-time">Hace 18 min</span>
-                            </div>
-                            <div className="activity-item">
-                                <span className="activity-dot bg-primary"></span>
-                                <div>
-                                    <p className="activity-title">Nueva persona</p>
-                                    <p className="activity-desc">Se registró a la paciente Martina López</p>
-                                </div>
-                                <span className="activity-time">Hace 1 h</span>
-                            </div>
-                            <div className="activity-item">
-                                <span className="activity-dot bg-info"></span>
-                                <div>
-                                    <p className="activity-title">Ejercicio actualizado</p>
-                                    <p className="activity-desc">Se editó "Puente glúteo isométrico"</p>
-                                </div>
-                                <span className="activity-time">Hace 3 h</span>
-                            </div>
+                            {recentPersons.map((person, index) => (
+                                    <div className="activity-item" key={`person-${person.id}`}>
+                                        <span className="activity-dot bg-primary"></span>
+                                            <div>
+                                                <p className="activity-title">Nueva persona</p>
+                                                <p className="activity-desc">Se registró a {person.firstName} {person.lastName} como {person.role}</p>
+                                            </div>
+                                        <span className="activity-time">Hace {index === 0 ? '1 h' : '2 h'}</span>
+                                    </div>
+                                ))}
+
+                            {recentExercises.map((exercise, index) => (
+                                    <div className="activity-item" key={`exercise-${exercise.id}`}>
+                                        <span className="activity-dot bg-primary"></span>
+                                            <div>
+                                                <p className="activity-title">Ejercicio agregado</p>
+                                                <p className="activity-desc">Se agregó "{exercise.name}" a la biblioteca</p>
+                                            </div>
+                                        <span className="activity-time">Hace {index === 0 ? '3 h' : '4 h'}</span>
+                                    </div>
+                                ))}
+                                
+                            {recentPersons.length === 0 && recentExercises.length === 0 && (
+                                    <p className="text-muted small text-center py-3">No hay actividad reciente.</p>
+                                )}
                         </div>
                     </div>
                 </div>

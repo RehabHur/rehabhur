@@ -38,10 +38,15 @@ function Sidebar() {
                         Ejercicios
                     </NavLink>
 
-                    <button type="button" className="sidebar-item">
+                    <NavLink
+                        to="/programs"
+                        className={({ isActive }) =>
+                            'sidebar-item' + (isActive ? ' sidebar-item-active' : '')
+                        }
+                    >
                         <i className="bi bi-calendar2-check"></i>
                         Programas
-                    </button>
+                    </NavLink>
 
                     <NavLink
                         to="/persons"

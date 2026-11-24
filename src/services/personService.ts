@@ -2,9 +2,15 @@ import { BASE_URL } from '../api'
 import type { Person, PersonInput } from '../types/person'
 import { readJson } from './http'
 
+type PaginatedResponse<T> = {
+    data: T[]
+    meta?: { total: number, page: number, lastPage: number }
+}
+
 export async function getPersons(): Promise<Person[]> {
     const response = await fetch(`${BASE_URL}/persons`)
-    return readJson<Person[]>(response, 'No se pudieron obtener las personas')
+    const result = await readJson<PaginatedResponse<Person>>(response, 'No se pudieron obtener las personas')
+    return result.data
 }
 
 export async function createPerson(person: PersonInput): Promise<Person> {
