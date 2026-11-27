@@ -30,7 +30,7 @@ function App() {
                 <Route path="/persons/:id/edit" element={<CreatePerson />} />
 
 
-                <Route path="/commissions" element={<CommissionList />} />
+                <Route path="/commisions" element={<CommissionList />} />
 
 
                 <Route path="/programs" element={<ProgramList />} />
