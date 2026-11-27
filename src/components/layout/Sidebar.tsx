@@ -52,6 +52,16 @@ function Sidebar() {
                     </NavLink>
 
                     <NavLink
+                        to="/commisions"
+                        className={({ isActive }) =>
+                            'sidebar-item' + (isActive ? ' sidebar-item-active' : '')
+                        }
+                    >
+                        <Icon name="person-workspace" />
+                        Comisiones
+                    </NavLink>
+
+                    <NavLink
                         to="/programs"
                         className={({ isActive }) =>
                             'sidebar-item' + (isActive ? ' sidebar-item-active' : '')

@@ -14,6 +14,7 @@ import playFill from 'bootstrap-icons/icons/play-fill.svg?url'
 import search from 'bootstrap-icons/icons/search.svg?url'
 import xLarge from 'bootstrap-icons/icons/x-lg.svg?url'
 import boxArrowRight from 'bootstrap-icons/icons/box-arrow-right.svg?url'
+import personWorkspace from 'bootstrap-icons/icons/person-workspace.svg?url'
 import './Icon.css'
 
 const iconUrls = {
@@ -33,6 +34,7 @@ const iconUrls = {
     'play-fill': playFill,
     search,
     'x-lg': xLarge,
+    'person-workspace': personWorkspace,
 }
 
 export type IconName = keyof typeof iconUrls

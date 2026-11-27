@@ -11,7 +11,7 @@ function CommissionList() {
     const navigate = useNavigate()
     const { persons } = usePersons()
     
-    // Traemos las comisiones reales del back
+    
     const [commissions, setCommissions] = useState<Commission[]>([])
     const [loading, setLoading] = useState(true)
     const [activeTab, setActiveTab] = useState<string>('')
