@@ -10,6 +10,7 @@ import ProtectedRoute from './components/ProtectedRoute'
 import ProgramList from './pages/program/ProgramList'
 import ProgramAssignments from './pages/program/ProgramAssignments'
 import CreateProgram from './pages/program/CreateProgram'
+import CommissionList from './pages/commission/CommisionList'
 
 function App() {
     return (
@@ -29,10 +30,14 @@ function App() {
                 <Route path="/persons/:id/edit" element={<CreatePerson />} />
 
 
+                <Route path="/commissions" element={<CommissionList />} />
+
+
                 <Route path="/programs" element={<ProgramList />} />
                 <Route path="/programs/new" element={<CreateProgram />} />
                 <Route path="/programs/:id/edit" element={<CreateProgram />} />
                 <Route path="/programs/:id/assign" element={<ProgramAssignments />} />
+
 
                 <Route path="*" element={<NotFound />} />
             </Route>
